@@ -174,7 +174,7 @@ class Blockchain(util.PrintError):
             raise Exception("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
         if constants.net.TESTNET:
             return
-        bits = self.target_to_bits(target)
+        bits = self.target_to_bits(target) # FIXME: different pow system
         if bits != header.get('bits'):
             raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
         if int('0x' + _powhash, 16) > target:

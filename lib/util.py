@@ -42,9 +42,9 @@ def inv_dict(d):
     return {v: k for k, v in d.items()}
 
 
-base_units = {'LTC':8, 'mLTC':5, 'uLTC':2, 'sat':0}
+base_units = {'XSH':6, 'mXSH':3, 'shell':0, 'sat':0}
 base_units_inverse = inv_dict(base_units)
-base_units_list = ['LTC', 'mLTC', 'uLTC', 'sat']  # list(dict) does not guarantee order
+base_units_list = ['XSH', 'mXSH', 'shell', 'sat']  # list(dict) does not guarantee order
 
 
 def decimal_point_to_base_unit_name(dp: int) -> str:

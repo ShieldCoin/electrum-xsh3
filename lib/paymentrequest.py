@@ -48,8 +48,8 @@ from . import rsakey
 
 from .bitcoin import TYPE_ADDRESS
 
-REQUEST_HEADERS = {'Accept': 'application/litecoin-paymentrequest', 'User-Agent': 'Electrum'}
-ACK_HEADERS = {'Content-Type':'application/litecoin-payment','Accept':'application/litecoin-paymentack','User-Agent':'Electrum'}
+REQUEST_HEADERS = {'Accept': 'application/shield-payment', 'User-Agent': 'Electrum'}
+ACK_HEADERS = {'Content-Type':'application/shield-payment','Accept':'application/shield-paymentack','User-Agent':'Electrum'}
 
 ca_path = requests.certs.where()
 ca_list = None

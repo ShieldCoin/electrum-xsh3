@@ -241,7 +241,7 @@ class OKCoin(ExchangeBase):
         json = self.get_json('www.okcoin.com', '/api/v1/ticker.do?symbol=ltc_usd')
         return {'USD': Decimal(json['ticker']['last'])}
 
-
+# FIXME: LTC -> XSH api
 class MercadoBitcoin(ExchangeBase):
 
     def get_rates(self,ccy):

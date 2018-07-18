@@ -37,8 +37,8 @@ from .crypto import Hash, sha256, hash_160, hmac_oneshot
 ################################## transactions
 
 COINBASE_MATURITY = 100
-COIN = 100000000
-TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 84000000
+COIN = 1000000
+TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 752520000
 
 # supported types of transaction outputs
 TYPE_ADDRESS = 0
@@ -398,11 +398,12 @@ def DecodeBase58Check(psz):
 # backwards compat
 # extended WIF for segwit (used in 3.0.x; but still used internally)
 # the keys in this dict should be a superset of what Imported Wallets can import
+
 WIF_SCRIPT_TYPES = {
-    'p2pkh':48,
+    'p2pkh':63,
     'p2wpkh':1,
     'p2wpkh-p2sh':2,
-    'p2sh':50,
+    'p2sh':33,
     'p2wsh':6,
     'p2wsh-p2sh':7
 }
