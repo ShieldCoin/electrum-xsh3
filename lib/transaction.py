@@ -577,7 +577,7 @@ def deserialize(raw: str, force_full_parse=False) -> dict:
     vds.write(raw_bytes)
     d['version'] = vds.read_int32()
     d['time'] = vds.read_uint32()
-    if (d['time'] < 1507311610 or d['time'] > 1540188138) and d['version'] != 4:
+    if (d['time'] < 1507311610 or d['time'] > 1540188138) or d['version'] == 4
         d['time'] = 0
         vds.read_cursor -= 4; # time is not up to spec
     n_vin = vds.read_compact_size()
