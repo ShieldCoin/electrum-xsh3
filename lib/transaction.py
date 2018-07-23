@@ -576,6 +576,10 @@ def deserialize(raw: str, force_full_parse=False) -> dict:
     vds = BCDataStream()
     vds.write(raw_bytes)
     d['version'] = vds.read_int32()
+    d['time'] = vds.read_uint32()
+    if (d['time'] < 1507311610 or d['time'] > 1540188138) and d['version'] != 4:
+        d['time'] = 0
+        vds.read_cursor -= 4; # time is not up to spec
     n_vin = vds.read_compact_size()
     is_segwit = (n_vin == 0)
     if is_segwit:
@@ -633,6 +637,7 @@ class Transaction:
         self._outputs = None
         self.locktime = 0
         self.version = 1
+        self.time = 0
         # by default we assume this is a partial txn;
         # this value will get properly set when deserializing
         self.is_partial_originally = True
@@ -721,6 +726,7 @@ class Transaction:
             return
         d = deserialize(self.raw, force_full_parse)
         self._inputs = d['inputs']
+        self.time = d['time']
         self._outputs = [(x['type'], x['address'], x['value']) for x in d['outputs']]
         self.locktime = d['lockTime']
         self.version = d['version']
@@ -1022,6 +1028,7 @@ class Transaction:
 
     def serialize_to_network(self, estimate_size=False, witness=True):
         nVersion = int_to_hex(self.version, 4)
+        nTime = int_to_hex(self.time, 4)
         nLocktime = int_to_hex(self.locktime, 4)
         inputs = self.inputs()
         outputs = self.outputs()
@@ -1035,9 +1042,15 @@ class Transaction:
             marker = '00'
             flag = '01'
             witness = ''.join(self.serialize_witness(x, estimate_size) for x in inputs)
-            return nVersion + marker + flag + txins + txouts + witness + nLocktime
+            if self.time > 1507311610 and self.time < 1540188138 and self.version != 4:
+                return nVersion + nTime + marker + flag + txins + txouts + witness + nLocktime
+            else:
+                return nVersion + marker + flag + txins + txouts + witness + nLocktime
         else:
-            return nVersion + txins + txouts + nLocktime
+            if self.time > 1507311610 and self.time < 1540188138 and self.version != 4:
+                return nVersion + nTime + txins + txouts + nLocktime
+            else:
+                return nVersion + txins + txouts + nLocktime
 
     def txid(self):
         self.deserialize()
