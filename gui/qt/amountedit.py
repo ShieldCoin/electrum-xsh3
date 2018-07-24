@@ -33,7 +33,7 @@ class AmountEdit(MyLineEdit):
         self.extra_precision = 0
 
     def decimal_point(self):
-        return 8
+        return 6
 
     def max_precision(self):
         return self.decimal_point() + self.extra_precision
