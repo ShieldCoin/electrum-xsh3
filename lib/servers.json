@@ -1,141 +1,68 @@
 {
-    "2y27fkedpau73lbw.onion": {
-        "pruning": "-",
-        "s": "50004",
-        "t": "50003",
-        "version": "1.2"
-    },
-    "agapc7dhcqfjqpjb.onion": {
-        "pruning": "-",
-        "s": "50004",
-        "t": "50003",
-        "version": "1.2"
-    },
-    "backup.electrum-ltc.org": {
-        "pruning": "-",
-        "s": "443",
-        "t": "50001",
-        "version": "1.2"
-    },
-    "e-1.claudioboxx.com": {
-        "pruning": "-",
-        "s": "50004",
-        "t": "50003",
-        "version": "1.2"
-    },
-    "e-3.claudioboxx.com": {
-        "pruning": "-",
-        "s": "50004",
-        "t": "50003",
-        "version": "1.2"
-    },
-    "elec.luggs.co": {
-        "pruning": "-",
-        "s": "444",
-        "version": "1.2"
-    },
-    "electrum-ltc.bysh.me": {
+    "e00.nodex.sh": {
         "pruning": "-",
         "s": "50002",
         "t": "50001",
         "version": "1.2"
     },
-    "electrum-ltc.festivaldelhumor.org": {
-        "pruning": "-",
-        "s": "60002",
-        "t": "60001",
-        "version": "1.2"
-    },
-    "electrum-ltc.klippb.org": {
-        "pruning": "-",
-        "s": "50002",
-        "version": "1.2"
-    },
-    "electrum-ltc.villocq.com": {
-        "pruning": "-",
-        "s": "60002",
-        "t": "60001",
-        "version": "1.2"
-    },
-    "electrum-ltc.wilv.in": {
+    "e01.nodex.sh": {
         "pruning": "-",
         "s": "50002",
         "t": "50001",
         "version": "1.2"
     },
-    "electrum-ltc0.snel.it": {
-        "pruning": "-",
-        "s": "50004",
-        "t": "50003",
-        "version": "1.2"
-    },
-    "electrum.leblancnet.us": {
-        "pruning": "-",
-        "s": "50004",
-        "t": "50003",
-        "version": "1.2"
-    },
-    "electrum.ltc.xurious.com": {
+    "e02.nodex.sh": {
         "pruning": "-",
         "s": "50002",
         "t": "50001",
         "version": "1.2"
     },
-    "electrumx.kekku.li": {
+    "e03.nodex.sh": {
         "pruning": "-",
-        "s": "50003",
+        "s": "50002",
+        "t": "50001",
         "version": "1.2"
     },
-    "electrumx.nmdps.net": {
+    "e04.nodex.sh": {
         "pruning": "-",
-        "s": "9434",
-        "t": "9433",
+        "s": "50002",
+        "t": "50001",
         "version": "1.2"
     },
-    "gttvzmfh23pxqiw4.onion": {
+    "e05.nodex.sh": {
         "pruning": "-",
-        "s": "50004",
-        "t": "50003",
+        "s": "50002",
+        "t": "50001",
         "version": "1.2"
     },
-    "ltc.asis.io": {
+    "e06.nodex.sh": {
         "pruning": "-",
-        "s": "50004",
-        "t": "50003",
+        "s": "50002",
+        "t": "50001",
         "version": "1.2"
     },
-    "ltc01.knas.systems": {
+    "e07.nodex.sh": {
         "pruning": "-",
-        "s": "50004",
-        "t": "50003",
+        "s": "50002",
+        "t": "50001",
         "version": "1.2"
     },
-    "luggscoqbymhvnkp.onion": {
+    "e08.nodex.sh": {
         "pruning": "-",
-        "t": "81",
+        "s": "50002",
+        "t": "50001",
         "version": "1.2"
     },
-    "node.erratic.space": {
+    "e09.nodex.sh": {
         "pruning": "-",
-        "s": "50102",
-        "t": "50101",
+        "s": "50002",
+        "t": "50001",
         "version": "1.2"
     },
-    "node.ispol.sk": {
+        "e10.nodex.sh": {
         "pruning": "-",
-        "s": "50004",
-        "t": "50003",
-        "version": "1.2"
-    },
-    "oje4q5v6hlkxbscv.onion": {
-        "pruning": "-",
-        "s": "50004",
-        "t": "50003",
-        "version": "1.2"
-    },
-    "technetium.network": {
-        "pruning": "-",
-        "s": "50003",
+        "s": "50002",
+        "t": "50001",
         "version": "1.2"
     }
 }
