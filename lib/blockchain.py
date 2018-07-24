@@ -28,6 +28,8 @@ from .bitcoin import Hash, hash_encode, int_to_hex, rev_hex
 from . import constants
 from .util import bfh, bh2u
 
+from .blake2 import BLAKE2s as cblake
+
 try:
     import scrypt
     getPoWHash = lambda x: scrypt.hash(x, x, N=1024, r=1, p=1, buflen=32)
@@ -75,7 +77,11 @@ def hash_header(header):
     return hash_encode(Hash(bfh(serialize_header(header))))
 
 def pow_hash_header(header):
-    return hash_encode(getPoWHash(bfh(serialize_header(header))))
+    if header.version & (15 << 11) == (4 << 11): # blake python implementation
+        blake_state = cblake()
+        blake_state.update(bfh(serialize_header(header)))
+        return hash_encode(blake_state.final())
+    return hash_encode(getPoWHash(bfh(serialize_header(header)))) # default to scrypt
 
 
 blockchains = {}
@@ -167,6 +173,7 @@ class Blockchain(util.PrintError):
         p = self.path()
         self._size = os.path.getsize(p)//80 if os.path.exists(p) else 0
 
+
     def verify_header(self, header, prev_hash, target):
         _hash = hash_header(header)
         _powhash = pow_hash_header(header)
@@ -174,11 +181,13 @@ class Blockchain(util.PrintError):
             raise Exception("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
         if constants.net.TESTNET:
             return
-        bits = self.target_to_bits(target) # FIXME: different pow system
+        bits = self.target_to_bits(target)
         if bits != header.get('bits'):
             raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
-        if int('0x' + _powhash, 16) > target:
-            raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
+        algo_version = header.version & (15 << 11)
+        if algo_version == (1  << 11) or algo_version == (4  << 11): # Only Scrypt, blake
+            if int('0x' + _powhash, 16) > target:
+                raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
 
     def verify_chunk(self, index, data):
         num = len(data) // 80
