@@ -13,7 +13,7 @@ else:
 PYTHON_VERSION = '3.5.4'
 PYHOME = 'c:/python' + PYTHON_VERSION
 
-home = 'C:\\electrum-ltc\\'
+home = 'C:\\electrum-xsh\\'
 
 # see https://github.com/pyinstaller/pyinstaller/issues/2005
 hiddenimports = []
@@ -32,10 +32,10 @@ binaries += [b for b in collect_dynamic_libs('PyQt5') if 'qwindowsvista' in b[0]
 binaries += [('C:/tmp/libsecp256k1.dll', '.')]
 
 datas = [
-    (home+'lib/*.json', 'electrum_ltc'),
-    (home+'lib/wordlist/english.txt', 'electrum_ltc/wordlist'),
-    (home+'lib/locale', 'electrum_ltc/locale'),
-    (home+'plugins', 'electrum_ltc_plugins'),
+    (home+'lib/*.json', 'electrum_xsh'),
+    (home+'lib/wordlist/english.txt', 'electrum_xsh/wordlist'),
+    (home+'lib/locale', 'electrum_xsh/locale'),
+    (home+'plugins', 'electrum_xsh_plugins'),
     ('C:\\Program Files (x86)\\ZBar\\bin\\', '.')
 ]
 datas += collect_data_files('trezorlib')
@@ -43,7 +43,7 @@ datas += collect_data_files('btchip')
 datas += collect_data_files('keepkeylib')
 
 # We don't put these files in to actually include them in the script but to make the Analysis method scan them for imports
-a = Analysis([home+'electrum-ltc',
+a = Analysis([home+'electrum-xsh',
               home+'gui/qt/main_window.py',
               home+'gui/text.py',
               home+'lib/util.py',
@@ -88,7 +88,7 @@ exe_standalone = EXE(
     a.scripts,
     a.binaries,
     a.datas, 
-    name=os.path.join('build\\pyi.win32\\electrum-ltc', cmdline_name + ".exe"),
+    name=os.path.join('build\\pyi.win32\\electrum-xsh', cmdline_name + ".exe"),
     debug=False,
     strip=None,
     upx=False,
@@ -101,7 +101,7 @@ exe_portable = EXE(
     a.scripts,
     a.binaries,
     a.datas + [ ('is_portable', 'README.md', 'DATA' ) ],
-    name=os.path.join('build\\pyi.win32\\electrum-ltc', cmdline_name + "-portable.exe"),
+    name=os.path.join('build\\pyi.win32\\electrum-xsh', cmdline_name + "-portable.exe"),
     debug=False,
     strip=None,
     upx=False,
@@ -115,7 +115,7 @@ exe_dependent = EXE(
     pyz,
     a.scripts,
     exclude_binaries=True,
-    name=os.path.join('build\\pyi.win32\\electrum-ltc', cmdline_name),
+    name=os.path.join('build\\pyi.win32\\electrum-xsh', cmdline_name),
     debug=False,
     strip=None,
     upx=False,
@@ -132,4 +132,4 @@ coll = COLLECT(
     debug=False,
     icon=home+'icons/electrum.ico',
     console=False,
-    name=os.path.join('dist', 'electrum-ltc'))
+    name=os.path.join('dist', 'electrum-xsh'))

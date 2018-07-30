@@ -28,12 +28,12 @@ import os
 
 import requests
 
-from electrum_ltc import ELECTRUM_VERSION, constants
-from electrum_ltc.i18n import _
+from electrum_xsh import ELECTRUM_VERSION, constants
+from electrum_xsh.i18n import _
 
 
 class BaseCrashReporter(object):
-    report_server = "https://crashhub.electrum-ltc.org"
+    report_server = "https://crashhub.electrum-xsh.org"
     config_key = "show_crash_reporter"
     issue_template = """<h2>Traceback</h2>
 <pre>
@@ -60,8 +60,8 @@ class BaseCrashReporter(object):
         self.exc_args = (exctype, value, tb)
 
     def send_report(self, endpoint="/crash"):
-        if constants.net.GENESIS[-4:] not in ["29a0", "bfe2"] and ".electrum-ltc.org" in BaseCrashReporter.report_server:
-            # Gah! Some kind of altcoin wants to send us crash reports.
+        if constants.net.GENESIS[-4:] not in ["29a0", "bfe2"] and ".electrum-xsh.org" in BaseCrashReporter.report_server:
+            # Gah! Some kind of axshoin wants to send us crash reports.
             raise Exception(_("Missing report URL."))
         report = self.get_traceback_info()
         report.update(self.get_additional_info())

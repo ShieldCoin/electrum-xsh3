@@ -1,7 +1,7 @@
 Windows Binary Builds
 =====================
 
-These scripts can be used for cross-compilation of Windows Electrum-LTC executables from Linux/Wine.
+These scripts can be used for cross-compilation of Windows Electrum-XSH executables from Linux/Wine.
 Produced binaries are deterministic, so you should be able to generate binaries that match the official releases. 
 
 
@@ -29,7 +29,7 @@ $ sudo apt-get install mingw-w64 autotools-dev autoconf libtool
 ```
 
 The binaries are also built by Travis CI, so if you are having problems,
-[that script](https://github.com/pooler/electrum-ltc/blob/master/.travis.yml) might help.
+[that script](https://github.com/pooler/electrum-xsh/blob/master/.travis.yml) might help.
 
 2. Make sure `/opt` is writable by the current user.
 3. Run `build.sh`.
@@ -39,10 +39,10 @@ The binaries are also built by Travis CI, so if you are having problems,
 Code Signing
 ============
 
-Electrum-LTC Windows builds are signed with a Microsoft Authenticode™ code signing
+Electrum-XSH Windows builds are signed with a Microsoft Authenticode™ code signing
 certificate in addition to the GPG-based signatures.
 
-The advantage of using Authenticode is that Electrum-LTC users won't receive a 
+The advantage of using Authenticode is that Electrum-XSH users won't receive a 
 Windows SmartScreen warning when starting it.
 
 The release signing procedure involves a signer (the holder of the
@@ -59,7 +59,7 @@ certificate/key) and one or multiple trusted verifiers:
 |                                                           | Sign .exe file using `gpg -b`     |
 
 | Signer and verifiers:
-| Upload signatures to 'electrum-ltc-signatures' repo, as `$version/$filename.$builder.asc`         |
+| Upload signatures to 'electrum-xsh-signatures' repo, as `$version/$filename.$builder.asc`         |
 
 
 

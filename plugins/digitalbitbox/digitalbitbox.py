@@ -4,20 +4,20 @@
 #
 
 try:
-    import electrum_ltc as electrum
-    from electrum_ltc.crypto import Hash, EncodeAES, DecodeAES
-    from electrum_ltc.bitcoin import (TYPE_ADDRESS, push_script, var_int, public_key_to_p2pkh, is_address,
+    import electrum_xsh as electrum
+    from electrum_xsh.crypto import Hash, EncodeAES, DecodeAES
+    from electrum_xsh.bitcoin import (TYPE_ADDRESS, push_script, var_int, public_key_to_p2pkh, is_address,
                                       serialize_xpub, deserialize_xpub)
-    from electrum_ltc import ecc
-    from electrum_ltc.ecc import msg_magic
-    from electrum_ltc.wallet import Standard_Wallet
-    from electrum_ltc import constants
-    from electrum_ltc.transaction import Transaction
-    from electrum_ltc.i18n import _
-    from electrum_ltc.keystore import Hardware_KeyStore
+    from electrum_xsh import ecc
+    from electrum_xsh.ecc import msg_magic
+    from electrum_xsh.wallet import Standard_Wallet
+    from electrum_xsh import constants
+    from electrum_xsh.transaction import Transaction
+    from electrum_xsh.i18n import _
+    from electrum_xsh.keystore import Hardware_KeyStore
     from ..hw_wallet import HW_PluginBase
-    from electrum_ltc.util import print_error, to_string, UserCancelled
-    from electrum_ltc.base_wizard import ScriptTypeNotSupported, HWD_SETUP_NEW_WALLET
+    from electrum_xsh.util import print_error, to_string, UserCancelled
+    from electrum_xsh.base_wizard import ScriptTypeNotSupported, HWD_SETUP_NEW_WALLET
 
     import time
     import hid
@@ -290,7 +290,7 @@ class DigitalBitbox_Client():
 
     def dbb_generate_wallet(self):
         key = self.stretch_key(self.password)
-        filename = ("Electrum-LTC-" + time.strftime("%Y-%m-%d-%H-%M-%S") + ".pdf")
+        filename = ("Electrum-XSH-" + time.strftime("%Y-%m-%d-%H-%M-%S") + ".pdf")
         msg = ('{"seed":{"source": "create", "key": "%s", "filename": "%s", "entropy": "%s"}}' % (key, filename, 'Digital Bitbox Electrum Plugin')).encode('utf8')
         reply = self.hid_send_encrypt(msg)
         if 'error' in reply:

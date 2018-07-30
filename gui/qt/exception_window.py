@@ -30,8 +30,8 @@ import PyQt5.QtCore as QtCore
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *
 
-from electrum_ltc.i18n import _
-from electrum_ltc.base_crash_reporter import BaseCrashReporter
+from electrum_xsh.i18n import _
+from electrum_xsh.base_crash_reporter import BaseCrashReporter
 from .util import MessageBoxMixin
 
 
@@ -42,7 +42,7 @@ class Exception_Window(BaseCrashReporter, QWidget, MessageBoxMixin):
         BaseCrashReporter.__init__(self, exctype, value, tb)
         self.main_window = main_window
         QWidget.__init__(self)
-        self.setWindowTitle('Electrum-LTC - ' + _('An Error Occurred'))
+        self.setWindowTitle('Electrum-XSH - ' + _('An Error Occurred'))
         self.setMinimumSize(600, 300)
 
         main_box = QVBoxLayout()

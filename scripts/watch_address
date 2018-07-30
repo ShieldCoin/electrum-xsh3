@@ -2,9 +2,9 @@
 
 import sys
 import time
-from electrum_ltc import bitcoin
-from electrum_ltc import SimpleConfig, Network
-from electrum_ltc.util import print_msg, json_encode
+from electrum_xsh import bitcoin
+from electrum_xsh import SimpleConfig, Network
+from electrum_xsh.util import print_msg, json_encode
 
 try:
     addr = sys.argv[1]

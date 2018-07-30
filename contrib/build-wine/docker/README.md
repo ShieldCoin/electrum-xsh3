@@ -17,7 +17,7 @@ folder.
 2. Build image
 
     ```
-    $ sudo docker build --no-cache -t electrum-ltc-wine-builder-img contrib/build-wine/docker
+    $ sudo docker build --no-cache -t electrum-xsh-wine-builder-img contrib/build-wine/docker
     ```
 
     Note: see [this](https://stackoverflow.com/a/40516974/7499128) if having dns problems
@@ -27,11 +27,11 @@ folder.
     ```
     $ TARGET=master
     $ sudo docker run \
-        --name electrum-ltc-wine-builder-cont \
-        -v .:/opt/electrum-ltc \
+        --name electrum-xsh-wine-builder-cont \
+        -v .:/opt/electrum-xsh \
         --rm \
-        --workdir /opt/electrum-ltc/contrib/build-wine \
-        electrum-ltc-wine-builder-img \
+        --workdir /opt/electrum-xsh/contrib/build-wine \
+        electrum-xsh-wine-builder-img \
         ./build.sh $TARGET
     ```
 4. The generated binaries are in `./contrib/build-wine/dist`.

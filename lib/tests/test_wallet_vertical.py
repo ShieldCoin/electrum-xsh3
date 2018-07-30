@@ -106,8 +106,8 @@ class TestWalletKeystoreAddressIntegrityForMainnet(SequentialTestCase):
         w = WalletIntegrityHelper.create_standard_wallet(ks)
         self.assertEqual(w.txin_type, 'p2wpkh')
 
-        self.assertEqual(w.get_receiving_addresses()[0], 'ltc1q3g5tmkmlvxryhh843v4dz026avatc0zz8xd49e')
-        self.assertEqual(w.get_change_addresses()[0], 'ltc1qdy94n2q5qcp0kg7v9yzwe6wvfkhnvyzjazfzj3')
+        self.assertEqual(w.get_receiving_addresses()[0], 'xsh1q3g5tmkmlvxryhh843v4dz026avatc0zz8xd49e')
+        self.assertEqual(w.get_change_addresses()[0], 'xsh1qdy94n2q5qcp0kg7v9yzwe6wvfkhnvyzjazfzj3')
 
     @needs_test_with_all_ecc_implementations
     @mock.patch.object(storage.WalletStorage, '_write')
@@ -183,8 +183,8 @@ class TestWalletKeystoreAddressIntegrityForMainnet(SequentialTestCase):
         w = WalletIntegrityHelper.create_standard_wallet(ks)
         self.assertEqual(w.txin_type, 'p2wpkh')
 
-        self.assertEqual(w.get_receiving_addresses()[0], 'ltc1qcr8te4kr609gcawutmrza0j4xv80jy8z4nqduv')
-        self.assertEqual(w.get_change_addresses()[0], 'ltc1q8c6fshw2dlwun7ekn9qwf37cu2rn755u9ym7p0')
+        self.assertEqual(w.get_receiving_addresses()[0], 'xsh1qcr8te4kr609gcawutmrza0j4xv80jy8z4nqduv')
+        self.assertEqual(w.get_change_addresses()[0], 'xsh1q8c6fshw2dlwun7ekn9qwf37cu2rn755u9ym7p0')
 
     @needs_test_with_all_ecc_implementations
     @mock.patch.object(storage.WalletStorage, '_write')
@@ -229,8 +229,8 @@ class TestWalletKeystoreAddressIntegrityForMainnet(SequentialTestCase):
         w = WalletIntegrityHelper.create_multisig_wallet([ks1, ks2], '2of2')
         self.assertEqual(w.txin_type, 'p2wsh')
 
-        self.assertEqual(w.get_receiving_addresses()[0], 'ltc1qvzezdcv6vs5h45ugkavp896e0nde5c5lg5h0fwe2xyfhnpkxq6gqa9a79a')
-        self.assertEqual(w.get_change_addresses()[0], 'ltc1qxqf840dqswcmu7a8v82fj6ej0msx08flvuy6kngr7axstjcaq6usxndfdg')
+        self.assertEqual(w.get_receiving_addresses()[0], 'xsh1qvzezdcv6vs5h45ugkavp896e0nde5c5lg5h0fwe2xyfhnpkxq6gqa9a79a')
+        self.assertEqual(w.get_change_addresses()[0], 'xsh1qxqf840dqswcmu7a8v82fj6ej0msx08flvuy6kngr7axstjcaq6usxndfdg')
 
     @needs_test_with_all_ecc_implementations
     @mock.patch.object(storage.WalletStorage, '_write')
@@ -313,8 +313,8 @@ class TestWalletKeystoreAddressIntegrityForMainnet(SequentialTestCase):
         w = WalletIntegrityHelper.create_standard_wallet(ks)
         self.assertEqual(ks.xprv, 'zprvAWgYBBk7JR8GkPMk2H4zQSX4fFT7uEZhbvVjUGsbPwpQRFRWDzXCf7FxSg2eTEwwGYRQDLQwJaE6HvsUueRDKcGkcLv7unzjnXCEQVWhrF9')
         self.assertEqual(ks.xpub, 'zpub6jftahH18ngZxsSD8JbzmaToDHHcJhHYy9RLGfHCxHMPJ3kemXqTCuaSHxc9KHJ2iE9ztirc5q212MBYy8Gd4w3KrccbgDiFKSwxFpYKEH6')
-        self.assertEqual(w.get_receiving_addresses()[0], 'ltc1qtuynwzd0d6wptvyqmc6ehkm70zcamxpsncccvf')
-        self.assertEqual(w.get_change_addresses()[0], 'ltc1qjy5zunxh6hjysele86qqywfa437z4xwmm96rkx')
+        self.assertEqual(w.get_receiving_addresses()[0], 'xsh1qtuynwzd0d6wptvyqmc6ehkm70zcamxpsncccvf')
+        self.assertEqual(w.get_change_addresses()[0], 'xsh1qjy5zunxh6hjysele86qqywfa437z4xwmm96rkx')
 
         ks = create_keystore_from_bip32seed(xtype='standard')  # p2sh
         w = WalletIntegrityHelper.create_multisig_wallet([ks], '1of1')
@@ -334,8 +334,8 @@ class TestWalletKeystoreAddressIntegrityForMainnet(SequentialTestCase):
         w = WalletIntegrityHelper.create_multisig_wallet([ks], '1of1')
         self.assertEqual(ks.xprv, 'ZprvAhadJRUYsNgeAxX7xwXyEWrsP3VP7bFHvC9QPY98miep3RzQzPuUkE7tFNz81gAqW1VP5vR4BncbR6VFCsaAU6PRSp2XKCTjgFU6zRpk6Xp')
         self.assertEqual(ks.xpub, 'Zpub6vZyhw1ShkEwPSbb4y4ybeobw5KsX3y9HR51BvYkL4BnvEKZXwDjJ2SN6fZcsiWvwhDymJriy3QW9WoKGMRaDR9zh5j15dBFDBDpqjK1ekQ')
-        self.assertEqual(w.get_receiving_addresses()[0], 'ltc1q84x0yrztvcjg88qef4d6978zccxulcmc9y88xcg4ghjdau999x7qaxz66u')
-        self.assertEqual(w.get_change_addresses()[0], 'ltc1q0fj5mra96hhnum80kllklc52zqn6kppt3hyzr49yhr3ecr42z3tsqjxpj4')
+        self.assertEqual(w.get_receiving_addresses()[0], 'xsh1q84x0yrztvcjg88qef4d6978zccxulcmc9y88xcg4ghjdau999x7qaxz66u')
+        self.assertEqual(w.get_change_addresses()[0], 'xsh1q0fj5mra96hhnum80kllklc52zqn6kppt3hyzr49yhr3ecr42z3tsqjxpj4')
 
 
 class TestWalletKeystoreAddressIntegrityForTestnet(TestCaseForTestnet):
@@ -397,8 +397,8 @@ class TestWalletKeystoreAddressIntegrityForTestnet(TestCaseForTestnet):
         w = WalletIntegrityHelper.create_standard_wallet(ks)
         self.assertEqual(ks.xprv, 'vprv9DMUxX4ShgxMMCbGgqvVa693yNsL8kbhwUQrLhJ3svJtCrAbDMrxArdQMrCJTcLFdyxBDS2hTvotknRE2rmA8fYM8z8Ra9inhcwerEsG6Ev')
         self.assertEqual(ks.xpub, 'vpub5SLqN2bLY4WeZgfjnsTVwE5nXQhpYDKZJhLT95hfSFqs5eVjkuBCiewtD8moKegM5fgmtpUNFBboVCjJ6LcZszJvPFpuLaSJEYhNhUAnrCS')
-        self.assertEqual(w.get_receiving_addresses()[0], 'tltc1qtuynwzd0d6wptvyqmc6ehkm70zcamxpsy2m3lr')
-        self.assertEqual(w.get_change_addresses()[0], 'tltc1qjy5zunxh6hjysele86qqywfa437z4xwmvhe29v')
+        self.assertEqual(w.get_receiving_addresses()[0], 'txsh1qtuynwzd0d6wptvyqmc6ehkm70zcamxpsy2m3lr')
+        self.assertEqual(w.get_change_addresses()[0], 'txsh1qjy5zunxh6hjysele86qqywfa437z4xwmvhe29v')
 
         ks = create_keystore_from_bip32seed(xtype='standard')  # p2sh
         w = WalletIntegrityHelper.create_multisig_wallet([ks], '1of1')
@@ -418,8 +418,8 @@ class TestWalletKeystoreAddressIntegrityForTestnet(TestCaseForTestnet):
         w = WalletIntegrityHelper.create_multisig_wallet([ks], '1of1')
         self.assertEqual(ks.xprv, 'Vprv16YtLrHXxePM6noKqtFtMtmUgBE9bEpF3fPLmpvuPksssLostujtdHBwqhEeVuzESz22UY8hyPx9ed684SQpCmUKSVhpxPFbvVNY7qnviNR')
         self.assertEqual(ks.xpub, 'Vpub5dEvVGKn7251zFq7jXvUmJRbFCk5ka19cxz84LyCp2gGhq4eXJZUomop1qjGt5uFK8kkmQUV8PzJcNM4PZmX2URbDiwJjyuJ8GyFHRrEmmG')
-        self.assertEqual(w.get_receiving_addresses()[0], 'tltc1q84x0yrztvcjg88qef4d6978zccxulcmc9y88xcg4ghjdau999x7qkfxy9f')
-        self.assertEqual(w.get_change_addresses()[0], 'tltc1q0fj5mra96hhnum80kllklc52zqn6kppt3hyzr49yhr3ecr42z3tstazldq')
+        self.assertEqual(w.get_receiving_addresses()[0], 'txsh1q84x0yrztvcjg88qef4d6978zccxulcmc9y88xcg4ghjdau999x7qkfxy9f')
+        self.assertEqual(w.get_change_addresses()[0], 'txsh1q0fj5mra96hhnum80kllklc52zqn6kppt3hyzr49yhr3ecr42z3tstazldq')
 
 
 class TestWalletSending(TestCaseForTestnet):
@@ -926,7 +926,7 @@ class TestWalletSending(TestCaseForTestnet):
 
         privkeys = ['93NQ7CFbwTPyKDJLXe97jczw33fiLijam2SCZL3Uinz1NSbHrTu', ]
         network = NetworkMock()
-        dest_addr = 'tltc1q3ws2p0qjk5vrravv065xqlnkckvzcpcl0k88vr'
+        dest_addr = 'txsh1q3ws2p0qjk5vrravv065xqlnkckvzcpcl0k88vr'
         tx = sweep(privkeys, network, config=None, recipient=dest_addr, fee=5000)
 
         tx_copy = Transaction(tx.serialize())
@@ -969,7 +969,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_online.receive_tx_callback(funding_txid, funding_tx, TX_HEIGHT_UNCONFIRMED)
 
         # create unsigned tx
-        outputs = [(bitcoin.TYPE_ADDRESS, 'tltc1qp0mv2sxsyxxfj5gl0332f9uyez93su9cszcqyh', 2500000)]
+        outputs = [(bitcoin.TYPE_ADDRESS, 'txsh1qp0mv2sxsyxxfj5gl0332f9uyez93su9cszcqyh', 2500000)]
         tx = wallet_online.mktx(outputs=outputs, password=None, config=self.config, fee=5000)
         tx.set_rbf(True)
         tx.locktime = 1325340
@@ -1009,7 +1009,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_online.receive_tx_callback(funding_txid, funding_tx, TX_HEIGHT_UNCONFIRMED)
 
         # create unsigned tx
-        outputs = [(bitcoin.TYPE_ADDRESS, 'tltc1qp0mv2sxsyxxfj5gl0332f9uyez93su9cszcqyh', 2500000)]
+        outputs = [(bitcoin.TYPE_ADDRESS, 'txsh1qp0mv2sxsyxxfj5gl0332f9uyez93su9cszcqyh', 2500000)]
         tx = wallet_online.mktx(outputs=outputs, password=None, config=self.config, fee=5000)
         tx.set_rbf(True)
         tx.locktime = 1325341
@@ -1050,7 +1050,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_online.receive_tx_callback(funding_txid, funding_tx, TX_HEIGHT_UNCONFIRMED)
 
         # create unsigned tx
-        outputs = [(bitcoin.TYPE_ADDRESS, 'tltc1qp0mv2sxsyxxfj5gl0332f9uyez93su9cszcqyh', 2500000)]
+        outputs = [(bitcoin.TYPE_ADDRESS, 'txsh1qp0mv2sxsyxxfj5gl0332f9uyez93su9cszcqyh', 2500000)]
         tx = wallet_online.mktx(outputs=outputs, password=None, config=self.config, fee=5000)
         tx.set_rbf(True)
         tx.locktime = 1325341
@@ -1086,7 +1086,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_online.receive_tx_callback(funding_txid, funding_tx, TX_HEIGHT_UNCONFIRMED)
 
         # create unsigned tx
-        outputs = [(bitcoin.TYPE_ADDRESS, 'tltc1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
+        outputs = [(bitcoin.TYPE_ADDRESS, 'txsh1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
         tx = wallet_online.mktx(outputs=outputs, password=None, config=self.config, fee=5000)
         tx.set_rbf(True)
         tx.locktime = 1325340
@@ -1120,7 +1120,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_online.receive_tx_callback(funding_txid, funding_tx, TX_HEIGHT_UNCONFIRMED)
 
         # create unsigned tx
-        outputs = [(bitcoin.TYPE_ADDRESS, 'tltc1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
+        outputs = [(bitcoin.TYPE_ADDRESS, 'txsh1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
         tx = wallet_online.mktx(outputs=outputs, password=None, config=self.config, fee=5000)
         tx.set_rbf(True)
         tx.locktime = 1325340
@@ -1145,7 +1145,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_offline = WalletIntegrityHelper.create_imported_wallet(privkeys=True)
         wallet_offline.import_private_key('p2wpkh:cPuQzcNEgbeYZ5at9VdGkCwkPA9r34gvEVJjuoz384rTfYpahfe7', pw=None)
         wallet_online = WalletIntegrityHelper.create_imported_wallet(privkeys=False)
-        wallet_online.import_address('tltc1qm2eh4787lwanrzr6pf0ekf5c7jnmghm2ad526v')
+        wallet_online.import_address('txsh1qm2eh4787lwanrzr6pf0ekf5c7jnmghm2ad526v')
 
         # bootstrap wallet_online
         funding_tx = Transaction('01000000000101197a89cff51096b9dd4214cdee0eb90cb27a25477e739521d728a679724042730100000000fdffffff048096980000000000160014dab37af8fefbbb31887a0a5f9b2698f4a7b45f6a80969800000000001976a91405a20074ef7eb42c7c6fcd4f499faa699742783288ac809698000000000017a914b808938a8007bc54509cd946944c479c0fa6554f87131b2c0400000000160014a04dfdb9a9aeac3b3fada6f43c2a66886186e2440247304402204f5dbb9dda65eab26179f1ca7c37c8baf028153815085dd1bbb2b826296e3b870220379fcd825742d6e2bdff772f347b629047824f289a5499a501033f6c3495594901210363c9c98740fe0455c646215cea9b13807b758791c8af7b74e62968bef57ff8ae1e391400')
@@ -1154,7 +1154,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_online.receive_tx_callback(funding_txid, funding_tx, TX_HEIGHT_UNCONFIRMED)
 
         # create unsigned tx
-        outputs = [(bitcoin.TYPE_ADDRESS, 'tltc1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
+        outputs = [(bitcoin.TYPE_ADDRESS, 'txsh1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
         tx = wallet_online.mktx(outputs=outputs, password=None, config=self.config, fee=5000)
         tx.set_rbf(True)
         tx.locktime = 1325340
@@ -1191,7 +1191,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_online.receive_tx_callback(funding_txid, funding_tx, TX_HEIGHT_UNCONFIRMED)
 
         # create unsigned tx
-        outputs = [(bitcoin.TYPE_ADDRESS, 'tltc1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
+        outputs = [(bitcoin.TYPE_ADDRESS, 'txsh1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
         tx = wallet_online.mktx(outputs=outputs, password=None, config=self.config, fee=5000)
         tx.set_rbf(True)
         tx.locktime = 1325340
@@ -1228,7 +1228,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_online.receive_tx_callback(funding_txid, funding_tx, TX_HEIGHT_UNCONFIRMED)
 
         # create unsigned tx
-        outputs = [(bitcoin.TYPE_ADDRESS, 'tltc1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
+        outputs = [(bitcoin.TYPE_ADDRESS, 'txsh1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
         tx = wallet_online.mktx(outputs=outputs, password=None, config=self.config, fee=5000)
         tx.set_rbf(True)
         tx.locktime = 1325340
@@ -1256,7 +1256,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
             gap_limit=4
         )
         wallet_online = WalletIntegrityHelper.create_imported_wallet(privkeys=False)
-        wallet_online.import_address('tltc1qm2eh4787lwanrzr6pf0ekf5c7jnmghm2ad526v')
+        wallet_online.import_address('txsh1qm2eh4787lwanrzr6pf0ekf5c7jnmghm2ad526v')
 
         # bootstrap wallet_online
         funding_tx = Transaction('01000000000101197a89cff51096b9dd4214cdee0eb90cb27a25477e739521d728a679724042730100000000fdffffff048096980000000000160014dab37af8fefbbb31887a0a5f9b2698f4a7b45f6a80969800000000001976a91405a20074ef7eb42c7c6fcd4f499faa699742783288ac809698000000000017a914b808938a8007bc54509cd946944c479c0fa6554f87131b2c0400000000160014a04dfdb9a9aeac3b3fada6f43c2a66886186e2440247304402204f5dbb9dda65eab26179f1ca7c37c8baf028153815085dd1bbb2b826296e3b870220379fcd825742d6e2bdff772f347b629047824f289a5499a501033f6c3495594901210363c9c98740fe0455c646215cea9b13807b758791c8af7b74e62968bef57ff8ae1e391400')
@@ -1265,7 +1265,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         wallet_online.receive_tx_callback(funding_txid, funding_tx, TX_HEIGHT_UNCONFIRMED)
 
         # create unsigned tx
-        outputs = [(bitcoin.TYPE_ADDRESS, 'tltc1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
+        outputs = [(bitcoin.TYPE_ADDRESS, 'txsh1quk7ahlhr3qmjndy0uvu9y9hxfesrtahtj48k8j', 2500000)]
         tx = wallet_online.mktx(outputs=outputs, password=None, config=self.config, fee=5000)
         tx.set_rbf(True)
         tx.locktime = 1325340
@@ -1421,7 +1421,7 @@ class TestWalletOfflineSigning(TestCaseForTestnet):
         )
         # ^ third seed: hedgehog sunset update estate number jungle amount piano friend donate upper wool
         wallet_online = WalletIntegrityHelper.create_imported_wallet(privkeys=False)
-        wallet_online.import_address('tltc1q83p6eqxkuvq4eumcha46crpzg4nj84s9p0hnynkxg8nhvfzqcc7q26lnr9')
+        wallet_online.import_address('txsh1q83p6eqxkuvq4eumcha46crpzg4nj84s9p0hnynkxg8nhvfzqcc7q26lnr9')
 
         # bootstrap wallet_online
         funding_tx = Transaction('0100000000010132352f6459e847e65e56aa05cbd7b9ee67be90b40d8f92f6f11e9bfaa11399c501000000171600142e5d579693b2a7679622935df94d9f3c84909b24fdffffff0280969800000000002200203c43ac80d6e3015cf378bf6bac0c22456723d6050bef324ec641e7762440c63c83717d010000000017a91441b772909ad301b41b76f4a3c5058888a7fe6f9a8702483045022100de54689f74b8efcce7fdc91e40761084686003bcd56c886ee97e75a7e803526102204dea51ae5e7d01bd56a8c336c64841f7fe02a8b101fa892e13f2d079bb14e6bf012102024e2f73d632c49f4b821ccd3b6da66b155427b1e5b1c4688cefd5a4b4bfa404c1391400')
@@ -1544,23 +1544,23 @@ class TestWalletHistory_EvilGapLimit(TestCaseForTestnet):
         # txn A is an external incoming txn paying to addr (3) and (15)
         # txn B is an external incoming txn paying to addr (4) and (25)
         # txn C is an internal transfer txn from addr (25) -- to -- (1) and (25)
-        w.receive_history_callback('tltc1qgh5c088he4d559wl0hw27hrdeg8p2z96c3td9f',  # HD index 1
+        w.receive_history_callback('txsh1qgh5c088he4d559wl0hw27hrdeg8p2z96c3td9f',  # HD index 1
                                    [('268fce617aaaa4847835c2212b984d7b7741fdab65de22813288341819bc5656', 1316917)],
                                    {})
         w.synchronize()
-        w.receive_history_callback('tltc1qm0ejr6g964zt2jux5te7m9ds43n28hds528z0k',  # HD index 3
+        w.receive_history_callback('txsh1qm0ejr6g964zt2jux5te7m9ds43n28hds528z0k',  # HD index 3
                                    [('511a35e240f4c8855de4c548dad932d03611a37e94e9203fdb6fc79911fe1dd4', 1316912)],
                                    {})
         w.synchronize()
-        w.receive_history_callback('tltc1qj4pnq958k89zcem3342lhcgyz0rnmhkzxjy3gk',  # HD index 4
+        w.receive_history_callback('txsh1qj4pnq958k89zcem3342lhcgyz0rnmhkzxjy3gk',  # HD index 4
                                    [('fde0b68938709c4979827caa576e9455ded148537fdb798fd05680da64dc1b4f', 1316917)],
                                    {})
         w.synchronize()
-        w.receive_history_callback('tltc1q3pyjwpm8wxgvquak240mprfhaydmkawcfhg2zs',  # HD index 15
+        w.receive_history_callback('txsh1q3pyjwpm8wxgvquak240mprfhaydmkawcfhg2zs',  # HD index 15
                                    [('511a35e240f4c8855de4c548dad932d03611a37e94e9203fdb6fc79911fe1dd4', 1316912)],
                                    {})
         w.synchronize()
-        w.receive_history_callback('tltc1qr0qjp99ygawul0eylxfqmt7alygye22mtenjfm',  # HD index 25
+        w.receive_history_callback('txsh1qr0qjp99ygawul0eylxfqmt7alygye22mtenjfm',  # HD index 25
                                    [('fde0b68938709c4979827caa576e9455ded148537fdb798fd05680da64dc1b4f', 1316917),
                                     ('268fce617aaaa4847835c2212b984d7b7741fdab65de22813288341819bc5656', 1316917)],
                                    {})

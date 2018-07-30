@@ -1,7 +1,7 @@
-Electrum-LTC - Lightweight Litecoin client
+Electrum-XSH - Lightweight Litecoin client
 ==========================================
 
-Electrum-LTC is a port of Electrum, the Bitcoin wallet, to Litecoin.
+Electrum-XSH is a port of Electrum, the Bitcoin wallet, to Litecoin.
 
 ::
 
@@ -9,7 +9,7 @@ Electrum-LTC is a port of Electrum, the Bitcoin wallet, to Litecoin.
   Original Author: Thomas Voegtlin
   Port Maintainer: Pooler
   Language: Python
-  Homepage: https://electrum-ltc.org/
+  Homepage: https://electrum-xsh.org/
 
 
 
@@ -19,30 +19,30 @@ Electrum-LTC is a port of Electrum, the Bitcoin wallet, to Litecoin.
 Getting started
 ===============
 
-Electrum-LTC is a pure python application. If you want to use the
+Electrum-XSH is a pure python application. If you want to use the
 Qt interface, install the Qt dependencies::
 
     sudo apt-get install python3-pyqt5
 
 If you downloaded the official package (tar.gz), you can run
-Electrum-LTC from its root directory, without installing it on your
+Electrum-XSH from its root directory, without installing it on your
 system; all the python dependencies are included in the 'packages'
-directory. To run Electrum-LTC from its root directory, just do::
+directory. To run Electrum-XSH from its root directory, just do::
 
-    ./electrum-ltc
+    ./electrum-xsh
 
-You can also install Electrum-LTC on your system, by running this command::
+You can also install Electrum-XSH on your system, by running this command::
 
     sudo apt-get install python3-setuptools
     pip3 install .[fast]
 
 This will download and install the Python dependencies used by
-Electrum-LTC, instead of using the 'packages' directory.
+Electrum-XSH, instead of using the 'packages' directory.
 The 'fast' extra contains some optional dependencies that we think
 are often useful but they are not strictly needed.
 
 If you cloned the git repository, you need to compile extra files
-before you can run Electrum-LTC. Read the next section, "Development
+before you can run Electrum-XSH. Read the next section, "Development
 Version".
 
 
@@ -52,8 +52,8 @@ Development version
 
 Check out the code from GitHub::
 
-    git clone git://github.com/pooler/electrum-ltc.git
-    cd electrum-ltc
+    git clone git://github.com/pooler/electrum-xsh.git
+    cd electrum-xsh
 
 Run install (this should install dependencies)::
 
@@ -89,7 +89,7 @@ To create binaries, create the 'packages' directory::
 
     ./contrib/make_packages
 
-This directory contains the python dependencies used by Electrum-LTC.
+This directory contains the python dependencies used by Electrum-XSH.
 
 Mac OS X / macOS
 --------

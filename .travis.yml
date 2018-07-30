@@ -14,7 +14,7 @@ install:
 cache:
   - pip: true
   - directories:
-    - /tmp/electrum-ltc-build
+    - /tmp/electrum-xsh-build
 script:
     - tox
 after_success:
@@ -31,9 +31,9 @@ jobs:
       services:
         - docker
       install:
-        - sudo docker build  --no-cache -t electrum-ltc-wine-builder-img ./contrib/build-wine/docker/
+        - sudo docker build  --no-cache -t electrum-xsh-wine-builder-img ./contrib/build-wine/docker/
       script:
-        - sudo docker run --name electrum-ltc-wine-builder-cont -v $PWD:/opt/electrum-ltc --rm --workdir /opt/electrum-ltc/contrib/build-wine electrum-ltc-wine-builder-img ./build.sh $TRAVIS_COMMIT
+        - sudo docker run --name electrum-xsh-wine-builder-cont -v $PWD:/opt/electrum-xsh --rm --workdir /opt/electrum-xsh/contrib/build-wine electrum-xsh-wine-builder-img ./build.sh $TRAVIS_COMMIT
       after_success: true
     - os: osx
       language: c

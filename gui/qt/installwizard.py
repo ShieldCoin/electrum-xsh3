@@ -8,10 +8,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from electrum_ltc import Wallet, WalletStorage
-from electrum_ltc.util import UserCancelled, InvalidPassword
-from electrum_ltc.base_wizard import BaseWizard, HWD_SETUP_DECRYPT_WALLET, GoBack
-from electrum_ltc.i18n import _
+from electrum_xsh import Wallet, WalletStorage
+from electrum_xsh.util import UserCancelled, InvalidPassword
+from electrum_xsh.base_wizard import BaseWizard, HWD_SETUP_DECRYPT_WALLET, GoBack
+from electrum_xsh.i18n import _
 
 from .seed_dialog import SeedLayout, KeysLayout
 from .network_dialog import NetworkChoiceLayout
@@ -29,7 +29,7 @@ WIF_HELP_TEXT = (_('WIF keys are typed in Electrum, based on script type.') + '\
                  _('A few examples') + ':\n' +
                  'p2pkh:T4PsyoR5gC8B...       \t-> LXqi2tzER...\n' +
                  'p2wpkh-p2sh:T4PsyoR5gC8B... \t-> MUuWxSpVC...\n' +
-                 'p2wpkh:T4PsyoR5gC8B...      \t-> ltc1q3fjf...')
+                 'p2wpkh:T4PsyoR5gC8B...      \t-> xsh1q3fjf...')
 # note: full key is T4PsyoR5gC8BGEoTe8So7YQWPnvdkqTJqRVpLoMmZVqBsunDdeuJ
 
 
@@ -100,7 +100,7 @@ class InstallWizard(QDialog, MessageBoxMixin, BaseWizard):
     def __init__(self, config, app, plugins, storage):
         BaseWizard.__init__(self, config, plugins, storage)
         QDialog.__init__(self, None)
-        self.setWindowTitle('Electrum-LTC  -  ' + _('Install Wizard'))
+        self.setWindowTitle('Electrum-XSH  -  ' + _('Install Wizard'))
         self.app = app
         self.config = config
         # Set for base base class
@@ -144,7 +144,7 @@ class InstallWizard(QDialog, MessageBoxMixin, BaseWizard):
         hbox.setStretchFactor(scroll, 1)
         outer_vbox.addLayout(hbox)
         outer_vbox.addLayout(Buttons(self.back_button, self.next_button))
-        self.set_icon(':icons/electrum-ltc.png')
+        self.set_icon(':icons/electrum-xsh.png')
         self.show()
         self.raise_()
         self.refresh_gui()  # Need for QT on MacOSX.  Lame.
@@ -171,7 +171,7 @@ class InstallWizard(QDialog, MessageBoxMixin, BaseWizard):
         hbox2.addWidget(self.pw_e)
         hbox2.addStretch()
         vbox.addLayout(hbox2)
-        self.set_layout(vbox, title=_('Electrum-LTC wallet'))
+        self.set_layout(vbox, title=_('Electrum-XSH wallet'))
 
         wallet_folder = os.path.dirname(self.storage.path)
 

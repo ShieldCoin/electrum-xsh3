@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME_ROOT=electrum-ltc
+NAME_ROOT=electrum-xsh
 PYTHON_VERSION=3.5.4
 
 # These settings probably don't need any change
@@ -19,13 +19,13 @@ set -e
 mkdir -p tmp
 cd tmp
 
-if [ -d ./electrum-ltc ]; then
-  rm ./electrum-ltc -rf
+if [ -d ./electrum-xsh ]; then
+  rm ./electrum-xsh -rf
 fi
 
-git clone https://github.com/pooler/electrum-ltc -b master
+git clone https://github.com/pooler/electrum-xsh -b master
 
-pushd electrum-ltc
+pushd electrum-xsh
 if [ ! -z "$1" ]; then
     # a commit/tag/branch was specified
     if ! git cat-file -e "$1" 2> /dev/null
@@ -44,7 +44,7 @@ git submodule update
 VERSION=`git describe --tags --dirty`
 echo "Last commit: $VERSION"
 
-pushd ./contrib/deterministic-build/electrum-ltc-locale
+pushd ./contrib/deterministic-build/electrum-xsh-locale
 if ! which msgfmt > /dev/null 2>&1; then
     echo "Please install gettext"
     exit 1
@@ -59,18 +59,18 @@ popd
 find -exec touch -d '2000-11-11T11:11:11+00:00' {} +
 popd
 
-rm -rf $WINEPREFIX/drive_c/electrum-ltc
-cp -r electrum-ltc $WINEPREFIX/drive_c/electrum-ltc
-cp electrum-ltc/LICENCE .
-cp -r ./electrum-ltc/contrib/deterministic-build/electrum-ltc-locale/locale $WINEPREFIX/drive_c/electrum-ltc/lib/
-cp ./electrum-ltc/contrib/deterministic-build/electrum-ltc-icons/icons_rc.py $WINEPREFIX/drive_c/electrum-ltc/gui/qt/
+rm -rf $WINEPREFIX/drive_c/electrum-xsh
+cp -r electrum-xsh $WINEPREFIX/drive_c/electrum-xsh
+cp electrum-xsh/LICENCE .
+cp -r ./electrum-xsh/contrib/deterministic-build/electrum-xsh-locale/locale $WINEPREFIX/drive_c/electrum-xsh/lib/
+cp ./electrum-xsh/contrib/deterministic-build/electrum-xsh-icons/icons_rc.py $WINEPREFIX/drive_c/electrum-xsh/gui/qt/
 
 # Install frozen dependencies
 $PYTHON -m pip install -r ../../deterministic-build/requirements.txt
 
 $PYTHON -m pip install -r ../../deterministic-build/requirements-hw.txt
 
-pushd $WINEPREFIX/drive_c/electrum-ltc
+pushd $WINEPREFIX/drive_c/electrum-xsh
 $PYTHON setup.py install
 popd
 
@@ -91,7 +91,7 @@ popd
 wine "$WINEPREFIX/drive_c/Program Files (x86)/NSIS/makensis.exe" /DPRODUCT_VERSION=$VERSION electrum.nsi
 
 cd dist
-mv electrum-ltc-setup.exe $NAME_ROOT-$VERSION-setup.exe
+mv electrum-xsh-setup.exe $NAME_ROOT-$VERSION-setup.exe
 cd ..
 
 echo "Done."

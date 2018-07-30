@@ -194,7 +194,7 @@ class SimpleConfig(PrintError):
         base_unit = self.user_config.get('base_unit')
         if isinstance(base_unit, str):
             self._set_key_in_user_config('base_unit', None)
-            map_ = {'ltc':8, 'mltc':5, 'ultc':2, 'bits':2, 'sat':0}
+            map_ = {'xsh':8, 'mxsh':5, 'uxsh':2, 'bits':2, 'sat':0}
             decimal_point = map_.get(base_unit.lower())
             self._set_key_in_user_config('decimal_point', decimal_point)
 
@@ -255,7 +255,7 @@ class SimpleConfig(PrintError):
         new_path = os.path.join(self.path, "wallets", "default_wallet")
 
         # default path in pre 1.9 versions
-        old_path = os.path.join(self.path, "electrum-ltc.dat")
+        old_path = os.path.join(self.path, "electrum-xsh.dat")
         if os.path.exists(old_path) and not os.path.exists(new_path):
             os.rename(old_path, new_path)
 
@@ -537,7 +537,7 @@ class SimpleConfig(PrintError):
 
 
 def read_user_config(path):
-    """Parse and store the user config settings in electrum-ltc.conf into user_config[]."""
+    """Parse and store the user config settings in electrum-xsh.conf into user_config[]."""
     if not path:
         return {}
     config_path = os.path.join(path, "config")

@@ -26,13 +26,13 @@
 import webbrowser
 import datetime
 
-from electrum_ltc.wallet import AddTransactionException, TX_HEIGHT_LOCAL
+from electrum_xsh.wallet import AddTransactionException, TX_HEIGHT_LOCAL
 from .util import *
-from electrum_ltc.i18n import _
-from electrum_ltc.util import block_explorer_URL, profiler
+from electrum_xsh.i18n import _
+from electrum_xsh.util import block_explorer_URL, profiler
 
 try:
-    from electrum_ltc.plot import plot_history, NothingToPlotException
+    from electrum_xsh.plot import plot_history, NothingToPlotException
 except:
     plot_history = None
 
@@ -174,13 +174,13 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
         grid = QGridLayout()
         grid.addWidget(QLabel(_("Start")), 0, 0)
         grid.addWidget(QLabel(self.format_date(start_date)), 0, 1)
-        grid.addWidget(QLabel(str(h.get('start_fiat_value')) + '/LTC'), 0, 2)
+        grid.addWidget(QLabel(str(h.get('start_fiat_value')) + '/XSH'), 0, 2)
         grid.addWidget(QLabel(_("Initial balance")), 1, 0)
         grid.addWidget(QLabel(format_amount(h['start_balance'])), 1, 1)
         grid.addWidget(QLabel(str(h.get('start_fiat_balance'))), 1, 2)
         grid.addWidget(QLabel(_("End")), 2, 0)
         grid.addWidget(QLabel(self.format_date(end_date)), 2, 1)
-        grid.addWidget(QLabel(str(h.get('end_fiat_value')) + '/LTC'), 2, 2)
+        grid.addWidget(QLabel(str(h.get('end_fiat_value')) + '/XSH'), 2, 2)
         grid.addWidget(QLabel(_("Final balance")), 4, 0)
         grid.addWidget(QLabel(format_amount(h['end_balance'])), 4, 1)
         grid.addWidget(QLabel(str(h.get('end_fiat_balance'))), 4, 2)
@@ -388,7 +388,7 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
         d = WindowModalDialog(self, _('Export History'))
         d.setMinimumSize(400, 200)
         vbox = QVBoxLayout(d)
-        defaultname = os.path.expanduser('~/electrum-ltc-history.csv')
+        defaultname = os.path.expanduser('~/electrum-xsh-history.csv')
         select_msg = _('Select file to export your wallet transactions to')
         hbox, filename_e, csv_button = filename_field(self, self.config, defaultname, select_msg)
         vbox.addLayout(hbox)
@@ -426,5 +426,5 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
                 for line in lines:
                     transaction.writerow(line)
             else:
-                from electrum_ltc.util import json_encode
+                from electrum_xsh.util import json_encode
                 f.write(json_encode(history))

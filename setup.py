@@ -36,8 +36,8 @@ if platform.system() in ['Linux', 'FreeBSD', 'DragonFly']:
         else:
             usr_share = os.path.expanduser('~/.local/share')
     data_files += [
-        (os.path.join(usr_share, 'applications/'), ['electrum-ltc.desktop']),
-        (os.path.join(usr_share, icons_dirname), ['icons/electrum-ltc.png'])
+        (os.path.join(usr_share, 'applications/'), ['electrum-xsh.desktop']),
+        (os.path.join(usr_share, icons_dirname), ['icons/electrum-xsh.png'])
     ]
 
 extras_require = {
@@ -49,45 +49,45 @@ extras_require['full'] = extras_require['hardware'] + extras_require['fast']
 
 
 setup(
-    name="Electrum-LTC",
+    name="Electrum-XSH",
     version=version.ELECTRUM_VERSION,
     install_requires=requirements,
     extras_require=extras_require,
     packages=[
-        'electrum_ltc',
-        'electrum_ltc_gui',
-        'electrum_ltc_gui.qt',
-        'electrum_ltc_plugins',
-        'electrum_ltc_plugins.audio_modem',
-        'electrum_ltc_plugins.cosigner_pool',
-        'electrum_ltc_plugins.email_requests',
-        'electrum_ltc_plugins.hw_wallet',
-        'electrum_ltc_plugins.keepkey',
-        'electrum_ltc_plugins.labels',
-        'electrum_ltc_plugins.ledger',
-        'electrum_ltc_plugins.revealer',
-        'electrum_ltc_plugins.trezor',
-        'electrum_ltc_plugins.digitalbitbox',
-        'electrum_ltc_plugins.virtualkeyboard',
+        'electrum_xsh',
+        'electrum_xsh_gui',
+        'electrum_xsh_gui.qt',
+        'electrum_xsh_plugins',
+        'electrum_xsh_plugins.audio_modem',
+        'electrum_xsh_plugins.cosigner_pool',
+        'electrum_xsh_plugins.email_requests',
+        'electrum_xsh_plugins.hw_wallet',
+        'electrum_xsh_plugins.keepkey',
+        'electrum_xsh_plugins.labels',
+        'electrum_xsh_plugins.ledger',
+        'electrum_xsh_plugins.revealer',
+        'electrum_xsh_plugins.trezor',
+        'electrum_xsh_plugins.digitalbitbox',
+        'electrum_xsh_plugins.virtualkeyboard',
     ],
     package_dir={
-        'electrum_ltc': 'lib',
-        'electrum_ltc_gui': 'gui',
-        'electrum_ltc_plugins': 'plugins',
+        'electrum_xsh': 'lib',
+        'electrum_xsh_gui': 'gui',
+        'electrum_xsh_plugins': 'plugins',
     },
     package_data={
         '': ['*.txt', '*.json', '*.ttf', '*.otf'],
-        'electrum_ltc': [
+        'electrum_xsh': [
             'wordlist/*.txt',
             'locale/*/LC_MESSAGES/electrum.mo',
         ],
     },
-    scripts=['electrum-ltc'],
+    scripts=['electrum-xsh'],
     data_files=data_files,
     description="Lightweight Litecoin Wallet",
     author="Thomas Voegtlin",
     author_email="thomasv@electrum.org",
     license="MIT Licence",
-    url="http://electrum-ltc.org",
+    url="http://electrum-xsh.org",
     long_description="""Lightweight Litecoin Wallet"""
 )

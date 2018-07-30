@@ -1,8 +1,8 @@
 import select, time, queue
-# import electrum_ltc as electrum
-from electrum_ltc import Connection, Interface, SimpleConfig
+# import electrum_xsh as electrum
+from electrum_xsh import Connection, Interface, SimpleConfig
 
-from electrum_ltc.network import parse_servers
+from electrum_xsh.network import parse_servers
 from collections import defaultdict
 
 # electrum.util.set_verbosity(1)
@@ -53,7 +53,7 @@ def get_peers():
     # 1. get connected interfaces
     server = config.get('server')
     if server is None:
-        print("You need to set a secure server, for example (for mainnet): 'electrum-ltc setconfig server electrum-ltc.bysh.me:50002:s'")
+        print("You need to set a secure server, for example (for mainnet): 'electrum-xsh setconfig server electrum-xsh.bysh.me:50002:s'")
         return []
     interfaces = get_interfaces([server])
     if not interfaces:
