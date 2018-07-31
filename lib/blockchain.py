@@ -77,7 +77,7 @@ def hash_header(header):
     return hash_encode(getPoWHash(bfh(serialize_header(header))))
 
 def pow_hash_header(header):
-    if header.version & (15 << 11) == (4 << 11): # blake python implementation
+    if header['version'] & (15 << 11) == (4 << 11): # blake python implementation
         blake_state = cblake()
         blake_state.update(bfh(serialize_header(header)))
         return hash_encode(blake_state.final())
@@ -184,7 +184,7 @@ class Blockchain(util.PrintError):
         bits = self.target_to_bits(target)
         if bits != header.get('bits'):
             raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
-        algo_version = header.version & (15 << 11)
+        algo_version = header['version'] & (15 << 11)
         if algo_version == (1  << 11) or algo_version == (4  << 11): # Only Scrypt, blake
             if int('0x' + _powhash, 16) > target:
                 raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
