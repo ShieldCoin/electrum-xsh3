@@ -48,11 +48,6 @@ from ctypes import *
 DBUG  = True                     # True False
 DBUG2 = False                    # True False
 
-if DBUG:
-    print('')
-    print('  ***   this is a beta version of blake2.py    ***')
-    print('  *** look for a final version in coming weeks ***')
-
 
 MASK8BITS   = 0xff
 MASK16BITS  = 0xffff
