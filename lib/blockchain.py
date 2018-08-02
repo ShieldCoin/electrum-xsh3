@@ -320,29 +320,85 @@ class Blockchain(util.PrintError):
             return ts
         return self.read_header(height).get('timestamp')
 
+    def GetMaxClockDrift(self, Height):
+        if (Height < 660000 || (Height < 817500 && Height > 800000))
+            return 2 * 60 * 60;
+        return 10 * 60;
+
+    def get_algo(self, header):
+        switcher = {
+            (1  << 11): 0, #scrypt
+            (2  << 11): 4, # groestl
+            (10 << 11): 2, # lyra
+            (3  << 11): 1, # x17
+            (4  << 11): 3, # blake
+            (11 << 11): 5, # x16s
+        }
+        return switcher.get(header['version'], 0)
+
     def get_target(self, index):
+        cBlock = self.read_header(index)
+        algo = self.get_algo(cBlock)
+
+        T = 225
+        FTL = GetMaxClockDrift(index)
+
+        N = 60
+
+        k = N*(N+1)*T/2
+        sumTarget = 0
+        t = 0
+        j = 0
+
+        samealgoblocks = []
+        c = height
+        while c > 100 and len(samealgoblocks) < N:
+            block = self.read_header(c)
+            if self.get_algo(block) == algo:
+                samealgoblocks.append(block)
+            c--
+        #TODO?: add v1 for fallback
+
+        # Loop through N most recent blocks.  "< height", not "<=". 
+        # height-1 = most recently solved rblock
+        for i in range(N, 0, -1):
+            solvetime = samealgoblocks[i-1]['timestamp'] - samealgoblock[i]['timestamp']
+            solvetime = max(-FTL, min(solvetime, 6*T));
+            j += 1
+            t += solvetime * j
+            target = self.bits_to_target(samealgoblocks[i-1].get('bits'))
+            sumTarget += target / (k * N)
+
+        # Keep t reasonable in case strange solvetimes occurred. 
+        if t < k//10:
+            t = k // 10
+
+        next_target = t * sumTarget
+        return next_target
+
+        # Old algo
         # compute target from chunk x, used in chunk x+1
-        if constants.net.TESTNET:
-            return 0
-        if index == -1:
-            return 0x00000FFFF0000000000000000000000000000000000000000000000000000000
-        if index < len(self.checkpoints):
-            h, t, _ = self.checkpoints[index]
-            return t
-        # new target
-        # Litecoin: go back the full period unless it's the first retarget
-        first_timestamp = self.get_timestamp(index * 2016 - 1 if index > 0 else 0)
-        last = self.read_header(index * 2016 + 2015)
-        if not first_timestamp or not last:
-            raise MissingHeader()
-        bits = last.get('bits')
-        target = self.bits_to_target(bits)
-        nActualTimespan = last.get('timestamp') - first_timestamp
-        nTargetTimespan = 84 * 60 * 60
-        nActualTimespan = max(nActualTimespan, nTargetTimespan // 4)
-        nActualTimespan = min(nActualTimespan, nTargetTimespan * 4)
-        new_target = min(MAX_TARGET, (target * nActualTimespan) // nTargetTimespan)
-        return new_target
+        # if constants.net.TESTNET:
+        #     return 0
+        # if index == -1:
+        #     return 0x00000FFFF0000000000000000000000000000000000000000000000000000000
+        # if index < len(self.checkpoints):
+        #     h, t, _ = self.checkpoints[index]
+        #     return t
+        # # new target
+        # # Litecoin: go back the full period unless it's the first retarget
+        # first_timestamp = self.get_timestamp(index * 2016 - 1 if index > 0 else 0)
+        # last = self.read_header(index * 2016 + 2015)
+        # if not first_timestamp or not last:
+        #     raise MissingHeader()
+        # bits = last.get('bits')
+        # target = self.bits_to_target(bits)
+        # nActualTimespan = last.get('timestamp') - first_timestamp
+        # nTargetTimespan = 84 * 60 * 60
+        # nActualTimespan = max(nActualTimespan, nTargetTimespan // 4)
+        # nActualTimespan = min(nActualTimespan, nTargetTimespan * 4)
+        # new_target = min(MAX_TARGET, (target * nActualTimespan) // nTargetTimespan)
+        # return new_target
 
     def bits_to_target(self, bits):
         bitsN = (bits >> 24) & 0xff
