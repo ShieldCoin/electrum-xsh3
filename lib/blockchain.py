@@ -375,7 +375,7 @@ class Blockchain(util.PrintError):
             t = k // 10
 
         next_target = t * sumTarget
-        return next_target
+        return int(next_target)
 
         # Old algo
         # compute target from chunk x, used in chunk x+1
