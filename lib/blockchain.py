@@ -322,8 +322,8 @@ class Blockchain(util.PrintError):
 
     def GetMaxClockDrift(self, Height):
         if (Height < 660000 or (Height < 817500 and Height > 800000)):
-            return 2 * 60 * 60;
-        return 10 * 60;
+            return 2 * 60 * 60
+        return 10 * 60
 
     def get_algo(self, header):
         switcher = {
@@ -337,7 +337,7 @@ class Blockchain(util.PrintError):
         return switcher.get(header['version'], 0)
 
     def get_target(self, index):
-        cBlock = self.read_header(index)
+        cBlock = self.read_header(index * 2016 + 2015)
         algo = self.get_algo(cBlock)
 
         T = 225
