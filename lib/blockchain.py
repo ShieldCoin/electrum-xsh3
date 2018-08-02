@@ -342,7 +342,7 @@ class Blockchain(util.PrintError):
         algo = self.get_algo(cBlock)
 
         T = 225
-        FTL = self.GetMaxClockDrift(index)
+        FTL = self.GetMaxClockDrift(height)
 
         N = 60
 
