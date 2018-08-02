@@ -2,18 +2,18 @@
 # sudo desktop-file-install electrum-xsh.desktop
 
 [Desktop Entry]
-Comment=Lightweight Litecoin Client
+Comment=Lightweight SHIELD Client
 Exec=sh -c "PATH=\"\\$HOME/.local/bin:\\$PATH\" electrum-xsh %u"
-GenericName[en_US]=Litecoin Wallet
-GenericName=Litecoin Wallet
+GenericName[en_US]=SHIELD Wallet
+GenericName=SHIELD Wallet
 Icon=electrum-xsh
-Name[en_US]=Electrum Litecoin Wallet
-Name=Electrum Litecoin Wallet
+Name[en_US]=Electrum SHIELD Wallet
+Name=Electrum SHIELD Wallet
 Categories=Finance;Network;
 StartupNotify=false
 Terminal=false
 Type=Application
-MimeType=x-scheme-handler/litecoin;
+MimeType=x-scheme-handler/shield;
 Actions=Testnet;
 
 [Desktop Action Testnet]

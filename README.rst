@@ -1,7 +1,7 @@
-Electrum-XSH - Lightweight Litecoin client
+Electrum-XSH - Lightweight SHIELD client
 ==========================================
 
-Electrum-XSH is a port of Electrum, the Bitcoin wallet, to Litecoin.
+Electrum-XSH is a port of Electrum, the Bitcoin wallet, to SHIELD.
 
 ::
 

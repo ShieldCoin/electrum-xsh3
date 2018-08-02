@@ -84,10 +84,10 @@ setup(
     },
     scripts=['electrum-xsh'],
     data_files=data_files,
-    description="Lightweight Litecoin Wallet",
+    description="Lightweight SHIELD Wallet",
     author="Thomas Voegtlin",
     author_email="thomasv@electrum.org",
     license="MIT Licence",
     url="http://electrum-xsh.org",
-    long_description="""Lightweight Litecoin Wallet"""
+    long_description="""Lightweight SHIELD Wallet"""
 )
