@@ -337,11 +337,12 @@ class Blockchain(util.PrintError):
         return switcher.get(header['version'], 0)
 
     def get_target(self, index):
-        cBlock = self.read_header(index * 2016 + 2015)
+        height = index * 2016 + 2015
+        cBlock = self.read_header(height)
         algo = self.get_algo(cBlock)
 
         T = 225
-        FTL = GetMaxClockDrift(index)
+        FTL = self.GetMaxClockDrift(index)
 
         N = 60
 
@@ -352,7 +353,7 @@ class Blockchain(util.PrintError):
 
         samealgoblocks = []
         c = height
-        while c > 100 and len(samealgoblocks) < N:
+        while c > 100 and len(samealgoblocks) <= N:
             block = self.read_header(c)
             if self.get_algo(block) == algo:
                 samealgoblocks.append(block)
@@ -362,7 +363,7 @@ class Blockchain(util.PrintError):
         # Loop through N most recent blocks.  "< height", not "<=". 
         # height-1 = most recently solved rblock
         for i in range(N, 0, -1):
-            solvetime = samealgoblocks[i-1]['timestamp'] - samealgoblock[i]['timestamp']
+            solvetime = samealgoblocks[i-1]['timestamp'] - samealgoblocks[i]['timestamp']
             solvetime = max(-FTL, min(solvetime, 6*T));
             j += 1
             t += solvetime * j
