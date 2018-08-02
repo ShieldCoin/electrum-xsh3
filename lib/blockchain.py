@@ -334,7 +334,7 @@ class Blockchain(util.PrintError):
             (4  << 11): 3, # blake
             (11 << 11): 5, # x16s
         }
-        return switcher.get(header['version'], 0)
+        return switcher.get(header['version'] & (15 << 11), 0)
 
     def get_target(self, index):
         height = index * 2016 + 2015
