@@ -321,7 +321,7 @@ class Blockchain(util.PrintError):
         return self.read_header(height).get('timestamp')
 
     def GetMaxClockDrift(self, Height):
-        if (Height < 660000 || (Height < 817500 && Height > 800000))
+        if (Height < 660000 or (Height < 817500 and Height > 800000))
             return 2 * 60 * 60;
         return 10 * 60;
 
@@ -356,7 +356,7 @@ class Blockchain(util.PrintError):
             block = self.read_header(c)
             if self.get_algo(block) == algo:
                 samealgoblocks.append(block)
-            c--
+            c-=1
         #TODO?: add v1 for fallback
 
         # Loop through N most recent blocks.  "< height", not "<=". 
