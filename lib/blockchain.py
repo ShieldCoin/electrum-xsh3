@@ -337,7 +337,7 @@ class Blockchain(util.PrintError):
         return switcher.get(header['version'] & (15 << 11), 0)
 
     def get_target(self, index):
-        height = index * 2016 + 2015
+        height = index
         cBlock = self.read_header(height)
         algo = self.get_algo(cBlock)
 
