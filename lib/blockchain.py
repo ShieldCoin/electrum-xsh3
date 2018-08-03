@@ -175,16 +175,9 @@ class Blockchain(util.PrintError):
         self._size = os.path.getsize(p)//80 if os.path.exists(p) else 0
 
     def checklist_gate(self, height, header):
-        if (height % 15 == 1 and height <= 800000):
-            if (height % 1500 == 1 and height > 1):
-                index = height // 1500 + 99
-                self.checklist_verify(index, header)
-            elif (height < 1500):
-                index = height // 15
-                self.checklist_verify(index, header)
-            elif (height >= 799500):
-                index = height // 15 - 52668
-                self.checklist_verify(index, header)
+        if (height % 1500 == 1):
+            index = height // 1500
+            self.checklist_verify(index, header)
 
     def checklist_verify(self, height, header):
         try:
@@ -193,12 +186,12 @@ class Blockchain(util.PrintError):
             print(e)
             os._exit(1)
 
-    def verify_header(self, header, prev_hash, target, height):
+    def verify_header(self, header, prev_hash, target, height, limit):
         if prev_hash != header.get('prev_block_hash'):
             raise Exception("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
         if constants.net.TESTNET:
             return
-        if (height > 800000):
+        if (height > limit):
             _powhash = pow_hash_header(header)
             bits = self.target_to_bits(target)
             if bits != header.get('bits'):
@@ -213,14 +206,15 @@ class Blockchain(util.PrintError):
     def verify_chunk(self, index, data):
         num = len(data) // 80
         prev_hash = self.get_hash(index * 2016 - 1)
+        limit = ((len(self.checklist) - 1) * 1500 + 1)
         for i in range(num):
             raw_header = data[i*80:(i+1) * 80]
             header = deserialize_header(raw_header, index*2016 + i)
-            if (index*2016 + i > 800000):
+            if (index*2016 + i > limit):
                 target = self.get_target(data, i, index)
             else:
                 target = 0
-            self.verify_header(header, prev_hash, target, index*2016 + i)
+            self.verify_header(header, prev_hash, target, index*2016 + i, limit)
             prev_hash = hash_header(header)
 
     def path(self):
