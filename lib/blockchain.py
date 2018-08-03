@@ -358,8 +358,8 @@ class Blockchain(util.PrintError):
             if self.get_algo(block) == algo:
                 samealgoblocks.append(block)
             c-=1
-            
-        if (c <= 100)
+
+        if c <= 100:
             return self.get_targetv1(index)
 
         # Loop through N most recent blocks.  "< height", not "<=". 
