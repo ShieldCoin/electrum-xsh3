@@ -121,13 +121,17 @@ class ElectrumGui:
         
         # Load the font: 
         font_db = QFontDatabase()
-        font_id = font_db.addApplicationFont(":icons/Montserrat.ttf")
-        families = font_db.applicationFontFamilies(font_id)[0]
-        Montserrat = QFont(families)
+        try:
+            font_id = font_db.addApplicationFont(":icons/Montserrat.ttf")            
+            families = font_db.applicationFontFamilies(font_id)[0]
+            Montserrat = QFont(families)
+            # tell painter to use your font: 
+            self.app.setFont(Montserrat)
+        except Exception as e:
+            print(e)
+            print("Error: Could not find font file.")
+            print("Please run 'pyrcc5 icons.qrc -o gui/qt/icons_rc.py', and reinstall Electrum")
 
-        # tell painter to use your font: 
-        self.app.setFont(Montserrat)
-        
         run_hook('init_qt', self)
 
     def set_dark_theme_if_needed(self):
