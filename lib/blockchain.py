@@ -187,7 +187,7 @@ class Blockchain(util.PrintError):
                 self.checklist_verify(index, header)
 
     def checklist_verify(self, height, header):
-        print("placeholder")
+        assert (hash_header(header) == self.checklist[height][0]), height
 
     def verify_header(self, header, prev_hash, target, height):
         if prev_hash != header.get('prev_block_hash'):
