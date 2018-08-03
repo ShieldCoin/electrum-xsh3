@@ -175,7 +175,6 @@ class Blockchain(util.PrintError):
 
 
     def verify_header(self, header, prev_hash, target):
-        _hash = hash_header(header)
         _powhash = pow_hash_header(header)
         if prev_hash != header.get('prev_block_hash'):
             raise Exception("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
