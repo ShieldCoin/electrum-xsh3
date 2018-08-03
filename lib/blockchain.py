@@ -451,14 +451,14 @@ class Blockchain(util.PrintError):
             self.print_error('verify_chunk %d failed'%idx, str(e))
             return False
 
-    def get_checkpoints(self):
+#    def get_checkpoints(self):
         # for each chunk, store the hash of the last block and the target after the chunk
-        cp = []
-        n = self.height() // 2016
-        for index in range(n):
-            h = self.get_hash((index+1) * 2016 -1)
-            target = self.get_target(index)
-            # SHIELD: also store the timestamp of the last block
-            tstamp = self.get_timestamp((index+1) * 2016 - 1)
-            cp.append((h, target, tstamp))
-        return cp
+#        cp = []
+#        n = self.height() // 2016
+#        for index in range(n):
+#            h = self.get_hash((index+1) * 2016 -1)
+#            target = self.get_target(index)
+#            # SHIELD: also store the timestamp of the last block
+#            tstamp = self.get_timestamp((index+1) * 2016 - 1)
+#            cp.append((h, target, tstamp))
+#        return cp

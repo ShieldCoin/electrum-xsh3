@@ -1283,11 +1283,11 @@ class Network(util.DaemonThread):
 
         return Network.__with_default_synchronous_callback(invocation, callback)
 
-    def export_checkpoints(self, path):
+#    def export_checkpoints(self, path):
         # run manually from the console to generate checkpoints
-        cp = self.blockchain().get_checkpoints()
-        with open(path, 'w', encoding='utf-8') as f:
-            f.write(json.dumps(cp, indent=4))
+#        cp = self.blockchain().get_checkpoints()
+#        with open(path, 'w', encoding='utf-8') as f:
+#            f.write(json.dumps(cp, indent=4))
 
     @classmethod
     def max_checkpoint(cls):
