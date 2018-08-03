@@ -77,11 +77,11 @@ def hash_header(header):
     return hash_encode(getPoWHash(bfh(serialize_header(header))))
 
 def pow_hash_header(header):
-    if header['version'] & (15 << 11) == (4 << 11): # blake python implementation
+    if header['version'] & (15 << 11) == (4 << 11):
         blake_state = cblake()
         blake_state.update(bfh(serialize_header(header)))
         return hash_encode(blake_state.final())
-    return hash_encode(getPoWHash(bfh(serialize_header(header)))) # default to scrypt
+    return hash_encode(getPoWHash(bfh(serialize_header(header))))
 
 
 blockchains = {}
@@ -128,6 +128,7 @@ class Blockchain(util.PrintError):
         self.catch_up = None # interface catching up
         self.checkpoint = checkpoint
         self.checkpoints = constants.net.CHECKPOINTS
+        self.checklist = constants.net.CHECKLIST
         self.parent_id = parent_id
         self.lock = threading.Lock()
         with self.lock:
@@ -173,20 +174,37 @@ class Blockchain(util.PrintError):
         p = self.path()
         self._size = os.path.getsize(p)//80 if os.path.exists(p) else 0
 
+    def checklist_gate(self, height, header):
+        if (height % 15 == 1 and height <= 800000):
+            if (height % 1500 == 1 and height > 1):
+                index = height // 1500 + 99
+                self.checklist_verify(index, header)
+            elif (height < 1500):
+                index = height // 15
+                self.checklist_verify(index, header)
+            elif (height >= 799500):
+                index = height // 15 - 52668
+                self.checklist_verify(index, header)
 
-    def verify_header(self, header, prev_hash, target):
-        _powhash = pow_hash_header(header)
+    def checklist_verify(self, height, header):
+        print("placeholder")
+
+    def verify_header(self, header, prev_hash, target, height):
         if prev_hash != header.get('prev_block_hash'):
             raise Exception("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
         if constants.net.TESTNET:
             return
-        bits = self.target_to_bits(target)
-        if bits != header.get('bits'):
-            raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
-        algo_version = header['version'] & (15 << 11)
-        if algo_version == (1  << 11) or algo_version == (4  << 11): # Only Scrypt, blake
-            if int('0x' + _powhash, 16) > target:
-                raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
+        if (height > 800000):
+            _powhash = pow_hash_header(header)
+            bits = self.target_to_bits(target)
+            if bits != header.get('bits'):
+                raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
+            algo_version = header['version'] & (15 << 11)
+            if algo_version == (1  << 11) or algo_version == (4  << 11): # Only Scrypt, blake
+                if int('0x' + _powhash, 16) > target:
+                    raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
+        else:
+            self.checklist_gate(height, header)
 
     def verify_chunk(self, index, data):
         num = len(data) // 80
@@ -194,8 +212,11 @@ class Blockchain(util.PrintError):
         for i in range(num):
             raw_header = data[i*80:(i+1) * 80]
             header = deserialize_header(raw_header, index*2016 + i)
-            target = self.get_target(data, i, index)
-            self.verify_header(header, prev_hash, target)
+            if (index*2016 + i > 800000):
+                target = self.get_target(data, i, index)
+            else:
+                target = 0
+            self.verify_header(header, prev_hash, target, index*2016 + i)
             prev_hash = hash_header(header)
 
     def path(self):
