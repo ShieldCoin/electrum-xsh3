@@ -191,8 +191,7 @@ class Blockchain(util.PrintError):
             assert (hash_header(header) == self.checklist[height][0]), 'Checklist item %s verify failed' % height
         except Exception as e:
             print(e)
-            import sys
-            sys.exit(1)
+            os._exit(1)
 
     def verify_header(self, header, prev_hash, target, height):
         if prev_hash != header.get('prev_block_hash'):
