@@ -181,9 +181,9 @@ class Blockchain(util.PrintError):
             raise Exception("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
         if constants.net.TESTNET:
             return
-#        bits = self.target_to_bits(target)
-#        if bits != header.get('bits'):
-            #raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
+        bits = self.target_to_bits(target)
+        if bits != header.get('bits'):
+            raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
         algo_version = header['version'] & (15 << 11)
         if algo_version == (1  << 11) or algo_version == (4  << 11): # Only Scrypt, blake
             if int('0x' + _powhash, 16) > target:
@@ -192,10 +192,10 @@ class Blockchain(util.PrintError):
     def verify_chunk(self, index, data):
         num = len(data) // 80
         prev_hash = self.get_hash(index * 2016 - 1)
-        target = self.get_target(index-1)
         for i in range(num):
             raw_header = data[i*80:(i+1) * 80]
             header = deserialize_header(raw_header, index*2016 + i)
+            target = self.get_target(index*2016 + i)
             self.verify_header(header, prev_hash, target)
             prev_hash = hash_header(header)
 
@@ -337,7 +337,7 @@ class Blockchain(util.PrintError):
         return switcher.get(header['version'] & (15 << 11), 0)
 
     def get_target(self, index):
-        height = index * 2016 + 2015
+        height = index
         cBlock = self.read_header(height)
         algo = self.get_algo(cBlock)
 
@@ -352,7 +352,7 @@ class Blockchain(util.PrintError):
         j = 0
 
         samealgoblocks = []
-        c = height
+        c = height - 1
         while c > 100 and len(samealgoblocks) <= N:
             block = self.read_header(c)
             if self.get_algo(block) == algo:
