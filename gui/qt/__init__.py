@@ -118,6 +118,16 @@ class ElectrumGui:
         self.tray.show()
         self.app.new_window_signal.connect(self.start_new_window)
         self.set_dark_theme_if_needed()
+        
+        # Load the font: 
+        font_db = QFontDatabase()
+        font_id = font_db.addApplicationFont(":icons/Montserrat.ttf")
+        families = font_db.applicationFontFamilies(font_id)[0]
+        Montserrat = QFont(families)
+
+        # tell painter to use your font: 
+        self.app.setFont(Montserrat)
+        
         run_hook('init_qt', self)
 
     def set_dark_theme_if_needed(self):
