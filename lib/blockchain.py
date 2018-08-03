@@ -195,7 +195,7 @@ class Blockchain(util.PrintError):
         for i in range(num):
             raw_header = data[i*80:(i+1) * 80]
             header = deserialize_header(raw_header, index*2016 + i)
-            target = self.get_target(index*2016 + i)
+            target = self.get_target(data, i, index)
             self.verify_header(header, prev_hash, target)
             prev_hash = hash_header(header)
 
@@ -336,9 +336,10 @@ class Blockchain(util.PrintError):
         }
         return switcher.get(header['version'] & (15 << 11), 0)
 
-    def get_target(self, index):
-        height = index
-        cBlock = self.read_header(height)
+    def get_target(self, data, counter, index):
+        height = index*2016 + counter
+        raw = data[counter*80:(counter+1) * 80]
+        cBlock = deserialize_header(raw, height)
         algo = self.get_algo(cBlock)
 
         T = 225
@@ -354,13 +355,18 @@ class Blockchain(util.PrintError):
         samealgoblocks = []
         c = height - 1
         while c > 100 and len(samealgoblocks) <= N:
-            block = self.read_header(c)
+            if (c >= index*2016):
+                tmpix = c - index*2016
+                tmpraw = data[tmpix*80:(tmpix+1) * 80]
+                block = deserialize_header(tmpraw, c)
+            else:
+                block = self.read_header(c)
             if self.get_algo(block) == algo:
                 samealgoblocks.append(block)
             c-=1
 
         if c <= 100:
-            return self.get_targetv1(index)
+            return self.get_targetv1(height)
 
         # Loop through N most recent blocks.  "< height", not "<=". 
         # height-1 = most recently solved rblock
