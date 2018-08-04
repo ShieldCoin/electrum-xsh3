@@ -91,7 +91,7 @@ def pow_hash_header(header):
         return hash_encode(blake_state.final())
 
     if header['version'] & (15 << 11) == (2  << 11):
-        return groestl_hash.getHash(bfh(serialize_header(header)))
+        return groestl_hash.getPoWHash(bfh(serialize_header(header)))[::-1].hex()
     
     if header['version'] & (15 << 11) == (10 << 11):
         return lyra2re2_hash.getPoWHash(bfh(serialize_header(header)))[::-1].hex()
@@ -214,7 +214,7 @@ class Blockchain(util.PrintError):
             if bits != header.get('bits'):
                 raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
             algo_version = header['version'] & (15 << 11)
-            if algo_version == (1  << 11) or algo_version == (4  << 11) or algo_version == (2  << 11) or algo_version == (10 << 11) or algo_version == (3  << 11): # Only Scrypt, blake
+            if algo_version == (1  << 11) or algo_version == (4  << 11) or algo_version == (2  << 11) or algo_version == (10 << 11):
                 _powhash = pow_hash_header(header)
                 if int('0x' + _powhash, 16) > target:
                     raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
