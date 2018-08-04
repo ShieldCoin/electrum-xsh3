@@ -460,7 +460,7 @@ def deserialize_privkey(key: str) -> (str, bytes, bool):
             raise BitcoinException('invalid prefix ({}) for WIF key (1)'.format(vch[0]))
     else:
         # all other keys must have a fixed first byte
-        if vch[0] != constants.net.WIF_PREFIX):
+        if vch[0] != constants.net.WIF_PREFIX:
             raise BitcoinException('invalid prefix ({}) for WIF key (2)'.format(vch[0]))
 
     if len(vch) not in [33, 34]:
