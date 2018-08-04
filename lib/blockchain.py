@@ -31,10 +31,15 @@ from .util import bfh, bh2u
 from .blake2 import BLAKE2s as cblake
 
 try:
-    import scrypt
-    getPoWHash = lambda x: scrypt.hash(x, x, N=1024, r=1, p=1, buflen=32)
     import groestl_hash # getHash
     import lyra2re2_hash # getPoWHash
+except ImportError:
+    util.print_msg("Error: lyra2re2_hash or groestl_hash not installed")
+    os.exit(1)
+
+try:
+    import scrypt
+    getPoWHash = lambda x: scrypt.hash(x, x, N=1024, r=1, p=1, buflen=32)
 except ImportError:
     util.print_msg("Warning: package scrypt not available; synchronization could be very slow")
     from .scrypt import scrypt_1024_1_1_80 as getPoWHash
