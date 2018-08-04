@@ -35,7 +35,7 @@ try:
     import lyra2re2_hash # getPoWHash
 except ImportError:
     util.print_msg("Error: lyra2re2_hash or groestl_hash not installed")
-    os.exit(1)
+    os._exit(1)
 
 try:
     import scrypt
