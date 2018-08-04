@@ -97,7 +97,7 @@ def pow_hash_header(header):
         return hash_encode(lyra2re2_hash.getPoWHash(bfh(serialize_header(header))))
     
     if header['version'] & (15 << 11) == (3  << 11):
-        return x17_hash.x17_gethash(bfg(serialize_header(header)))
+        return hash_encode(x17_hash.x17_gethash(bfh(serialize_header(header))))
 
     return hash_encode(getPoWHash(bfh(serialize_header(header))))
 
