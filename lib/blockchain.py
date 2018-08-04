@@ -91,10 +91,10 @@ def pow_hash_header(header):
         return hash_encode(blake_state.final())
 
     if header['version'] & (15 << 11) == (2  << 11):
-        return groestl_hash.getPoWHash(bfh(serialize_header(header)))[::-1].hex()
+        return hash_encode(groestl_hash.getPoWHash(bfh(serialize_header(header))))
     
     if header['version'] & (15 << 11) == (10 << 11):
-        return lyra2re2_hash.getPoWHash(bfh(serialize_header(header)))[::-1].hex()
+        return hash_encode(lyra2re2_hash.getPoWHash(bfh(serialize_header(header))))
     
     if header['version'] & (15 << 11) == (3  << 11):
         return x17_hash.x17_gethash(bfg(serialize_header(header)))
