@@ -33,8 +33,9 @@ from .blake2 import BLAKE2s as cblake
 try:
     import groestl_hash # getHash
     import lyra2re2_hash # getPoWHash
+    import x17_hash # x17_gethash
 except ImportError:
-    util.print_msg("Error: lyra2re2_hash or groestl_hash not installed")
+    util.print_msg("Error: x17_hash (1.5) or lyra2re2_hash or groestl_hash not installed")
     os._exit(1)
 
 try:
@@ -94,6 +95,9 @@ def pow_hash_header(header):
     
     if header['version'] & (15 << 11) == (10 << 11):
         return lyra2re2_hash.getPoWHash(bfh(serialize_header(header))) 
+    
+    if header['version'] & (15 << 11) == (3  << 11):
+        return x17_hash.x17_gethash(bfg(serialize_header(header)))
 
     return hash_encode(getPoWHash(bfh(serialize_header(header))))
 
@@ -211,7 +215,7 @@ class Blockchain(util.PrintError):
             if bits != header.get('bits'):
                 raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
             algo_version = header['version'] & (15 << 11)
-            if algo_version == (1  << 11) or algo_version == (4  << 11) or algo_version == (2  << 11) or algo_version == (10 << 11): # Only Scrypt, blake
+            if algo_version == (1  << 11) or algo_version == (4  << 11) or algo_version == (2  << 11) or algo_version == (10 << 11) or algo_version == (3  << 11): # Only Scrypt, blake
                 if int('0x' + _powhash, 16) > target:
                     raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
         else:

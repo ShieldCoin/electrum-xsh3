@@ -3,3 +3,4 @@ pycryptodomex
 scrypt>=0.6.0
 groestl-hash
 lyra2re2-hash
+x17_hash==1.5
