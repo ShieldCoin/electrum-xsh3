@@ -1,3 +1,5 @@
 PyQt5
 pycryptodomex
 scrypt>=0.6.0
+goestl-hash
+lyra2re2-hash

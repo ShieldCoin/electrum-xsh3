@@ -33,6 +33,8 @@ from .blake2 import BLAKE2s as cblake
 try:
     import scrypt
     getPoWHash = lambda x: scrypt.hash(x, x, N=1024, r=1, p=1, buflen=32)
+    import groestl_hash # getHash
+    import lyra2re2_hash # getPoWHash
 except ImportError:
     util.print_msg("Warning: package scrypt not available; synchronization could be very slow")
     from .scrypt import scrypt_1024_1_1_80 as getPoWHash
@@ -81,6 +83,13 @@ def pow_hash_header(header):
         blake_state = cblake()
         blake_state.update(bfh(serialize_header(header)))
         return hash_encode(blake_state.final())
+
+    if header['version'] & (15 << 11) == (2  << 11):
+        return groestl_hash.getHash(bfh(serialize_header(header)))
+    
+    if header['version'] & (15 << 11) == (10 << 11):
+        return lyra2re2_hash.getPoWHash(bfh(serialize_header(header))) 
+
     return hash_encode(getPoWHash(bfh(serialize_header(header))))
 
 
@@ -197,7 +206,7 @@ class Blockchain(util.PrintError):
             if bits != header.get('bits'):
                 raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
             algo_version = header['version'] & (15 << 11)
-            if algo_version == (1  << 11) or algo_version == (4  << 11): # Only Scrypt, blake
+            if algo_version == (1  << 11) or algo_version == (4  << 11) or algo_version == (2  << 11) or algo_version == (10 << 11): # Only Scrypt, blake
                 if int('0x' + _powhash, 16) > target:
                     raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
         else:
