@@ -210,12 +210,12 @@ class Blockchain(util.PrintError):
         if constants.net.TESTNET:
             return
         if (height > limit):
-            _powhash = pow_hash_header(header)
             bits = self.target_to_bits(target)
             if bits != header.get('bits'):
                 raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
             algo_version = header['version'] & (15 << 11)
             if algo_version == (1  << 11) or algo_version == (4  << 11) or algo_version == (2  << 11) or algo_version == (10 << 11) or algo_version == (3  << 11): # Only Scrypt, blake
+                _powhash = pow_hash_header(header)
                 if int('0x' + _powhash, 16) > target:
                     raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
         else:
