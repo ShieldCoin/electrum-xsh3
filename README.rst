@@ -53,7 +53,7 @@ Development version
 
 Check out the code from GitHub::
 
-    git clone git://github.com/pooler/electrum-xsh.git
+    git clone <git link>
     cd electrum-xsh
 
 Run install (this should install dependencies)::

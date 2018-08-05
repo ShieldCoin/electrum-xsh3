@@ -575,8 +575,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
 
     def show_report_bug(self):
         msg = ' '.join([
-            _("Please report any bugs as issues on github:<br/>"),
-            "<a href=\"https://github.com/pooler/electrum-xsh/issues\">https://github.com/pooler/electrum-xsh/issues</a><br/><br/>",
+            _("Please report any bugs as issues on the SHIELD Discord server:<br/>"),
+            "<a href=\"https://discord.gg/kgSXKrV\">https://discord.gg/kgSXKrV</a><br/><br/>",
             _("Before reporting a bug, upgrade to the most recent version of Electrum (latest release or git HEAD), and include the version number in your report."),
             _("Try to explain not only what the bug is, but how it occurs.")
          ])
