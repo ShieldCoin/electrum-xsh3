@@ -8,8 +8,9 @@ Electrum-XSH is a port of Electrum, the Bitcoin wallet, to SHIELD.
   Licence: MIT Licence
   Original Author: Thomas Voegtlin
   Port Maintainer: Pooler
+  Port to SHIELD: The SHIELD Team
   Language: Python
-  Homepage: https://electrum-xsh.org/
+  Homepage: https://shieldx.sh/
 
 
 
