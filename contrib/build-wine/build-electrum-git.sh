@@ -23,7 +23,7 @@ if [ -d ./electrum-xsh ]; then
   rm ./electrum-xsh -rf
 fi
 
-git clone https://github.com/ -b master #FIXME: wrong link
+git clone https://git.shieldx.sh/SHIELD-team/Core-Projects/electrum-xsh3 -b master electrum-xsh #FIXME: wrong link
 
 pushd electrum-xsh
 if [ ! -z "$1" ]; then
@@ -63,6 +63,7 @@ rm -rf $WINEPREFIX/drive_c/electrum-xsh
 cp -r electrum-xsh $WINEPREFIX/drive_c/electrum-xsh
 cp electrum-xsh/LICENCE .
 cp -r ./electrum-xsh/contrib/deterministic-build/electrum-xsh-locale/locale $WINEPREFIX/drive_c/electrum-xsh/lib/
+pyrcc5 -o ./electrum-xsh/contrib/deterministic-build/electrum-xsh-icons/icons_rc.py ./electrum-xsh/icons.qrc
 cp ./electrum-xsh/contrib/deterministic-build/electrum-xsh-icons/icons_rc.py $WINEPREFIX/drive_c/electrum-xsh/gui/qt/
 
 # Install frozen dependencies
