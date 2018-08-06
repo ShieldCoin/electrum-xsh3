@@ -4,3 +4,5 @@
 [submodule "contrib/deterministic-build/electrum-xsh-locale"]
 	path = contrib/deterministic-build/electrum-xsh-locale
 	url = https://github.com/pooler/electrum-xsh-locale
+
+#FIXME: wrong links

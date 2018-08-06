@@ -377,17 +377,13 @@ class Blockchain(util.PrintError):
         raw = data[counter*80:(counter+1) * 80]
         cBlock = deserialize_header(raw, height)
         algo = self.get_algo(cBlock)
-
         T = 225
         FTL = self.GetMaxClockDrift(height)
-
         N = 60
-
         k = N*(N+1)*T/2
         sumTarget = 0
         t = 0
         j = 0
-
         samealgoblocks = []
         c = height - 1
         while c > 100 and len(samealgoblocks) <= N:
@@ -400,12 +396,10 @@ class Blockchain(util.PrintError):
             if self.get_algo(block) == algo:
                 samealgoblocks.append(block)
             c-=1
-
         if c <= 100:
             return self.get_targetv1(height)
-
         # Loop through N most recent blocks.  "< height", not "<=". 
-        # height-1 = most recently solved rblock
+        # i-1 = most recent
         for i in range(N, 0, -1):
             solvetime = samealgoblocks[i-1]['timestamp'] - samealgoblocks[i]['timestamp']
             solvetime = max(-FTL, min(solvetime, 6*T));
@@ -413,11 +407,9 @@ class Blockchain(util.PrintError):
             t += solvetime * j
             target = self.bits_to_target(samealgoblocks[i-1].get('bits'))
             sumTarget += target / (k * N)
-
         # Keep t reasonable in case strange solvetimes occurred. 
-        if t < k//10:
+        if t < k // 10:
             t = k // 10
-
         next_target = t * sumTarget
         return int(next_target)
 

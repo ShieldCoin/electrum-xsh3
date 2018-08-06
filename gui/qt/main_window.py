@@ -398,8 +398,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
         if self.wallet.is_watching_only():
             msg = ' '.join([
                 _("This wallet is watching-only."),
-                _("This means you will not be able to spend shields with it."),
-                _("Make sure you own the seed phrase or the private keys, before you request shields to be sent to this wallet.")
+                _("This means you will not be able to spend SHIELD with it."),
+                _("Make sure you own the seed phrase or the private keys, before you request SHIELD to be sent to this wallet.")
             ])
             self.show_warning(msg, title=_('Information'))
 
@@ -546,7 +546,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
 
         help_menu = menubar.addMenu(_("&Help"))
         help_menu.addAction(_("&About"), self.show_about)
-        help_menu.addAction(_("&Official website"), lambda: webbrowser.open("https://electrum-xsh.org"))
+        help_menu.addAction(_("&Official website"), lambda: webbrowser.open("https://shieldx.sh"))
         help_menu.addSeparator()
         help_menu.addAction(_("&Documentation"), lambda: webbrowser.open("http://docs.electrum.org/")).setShortcut(QKeySequence.HelpContents)
         help_menu.addAction(_("&Report Bug"), self.show_report_bug)
@@ -575,8 +575,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
 
     def show_report_bug(self):
         msg = ' '.join([
-            _("Please report any bugs as issues on github:<br/>"),
-            "<a href=\"https://github.com/pooler/electrum-xsh/issues\">https://github.com/pooler/electrum-xsh/issues</a><br/><br/>",
+            _("Please report any bugs as issues on the SHIELD Discord server:<br/>"),
+            "<a href=\"https://discord.gg/kgSXKrV\">https://discord.gg/kgSXKrV</a><br/><br/>",
             _("Before reporting a bug, upgrade to the most recent version of Electrum (latest release or git HEAD), and include the version number in your report."),
             _("Try to explain not only what the bug is, but how it occurs.")
          ])
@@ -659,7 +659,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
         return text
 
     def format_fee_rate(self, fee_rate):
-        return format_fee_satoshis(fee_rate/1000, self.num_zeros) + ' sat/byte'
+        return format_fee_satoshis(fee_rate/1000, self.num_zeros) + ' shell/byte'
 
     def get_decimal_point(self):
         return self.decimal_point
@@ -1451,8 +1451,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
         if self.is_send_fee_frozen():
             fee_estimator = self.fee_e.get_amount()
         elif self.is_send_feerate_frozen():
-            amount = self.feerate_e.get_amount()  # sat/byte feerate
-            amount = 0 if amount is None else amount * 1000  # sat/kilobyte feerate
+            amount = self.feerate_e.get_amount()  # shell/byte feerate
+            amount = 0 if amount is None else amount * 1000  # shell/kilobyte feerate
             fee_estimator = partial(
                 simple_config.SimpleConfig.estimate_fee_for_feerate, amount)
         else:

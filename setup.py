@@ -88,6 +88,6 @@ setup(
     author="Thomas Voegtlin",
     author_email="thomasv@electrum.org",
     license="MIT Licence",
-    url="http://electrum-xsh.org",
+    url="http://shieldx.sh",
     long_description="""Lightweight SHIELD Wallet"""
 )

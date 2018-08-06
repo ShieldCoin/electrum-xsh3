@@ -23,7 +23,7 @@ if [ -d ./electrum-xsh ]; then
   rm ./electrum-xsh -rf
 fi
 
-git clone https://github.com/pooler/electrum-xsh -b master
+git clone https://github.com/ -b master #FIXME: wrong link
 
 pushd electrum-xsh
 if [ ! -z "$1" ]; then

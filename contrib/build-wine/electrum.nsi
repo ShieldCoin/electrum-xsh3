@@ -7,7 +7,7 @@
 ;Variables
 
   !define PRODUCT_NAME "Electrum-XSH"
-  !define PRODUCT_WEB_SITE "https://github.com/pooler/electrum-xsh"
+  !define PRODUCT_WEB_SITE "https://shieldx.sh"
   !define PRODUCT_PUBLISHER "Electrum Technologies GmbH"
   !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 
