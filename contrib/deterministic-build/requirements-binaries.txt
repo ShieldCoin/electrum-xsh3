@@ -66,3 +66,6 @@ SIP==4.19.8 \
 wheel==0.31.1 \
     --hash=sha256:0a2e54558a0628f2145d2fc822137e322412115173e8a2ddbe1c9024338ae83c \
     --hash=sha256:80044e51ec5bbf6c894ba0bc48d26a8c20a9ba629f4ca19ea26ecfcf87685f5f
+groestl-hash
+lyra2re2-hash
+x17_hash==1.5
