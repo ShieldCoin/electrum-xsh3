@@ -16,8 +16,8 @@ LIBUSB_SHA256=671f1a420757b4480e7fadc8313d6fb3cbb75ca00934c417c1efa6e77fb8779b
 PYTHON_VERSION=3.5.4
 
 ## These settings probably don't need change
-export WINEPREFIX=/opt/wine64
-#export WINEARCH='win32'
+export WINEPREFIX=/opt/wine32
+export WINEARCH='win32'
 
 PYHOME=c:/python$PYTHON_VERSION
 PYTHON="wine $PYHOME/python.exe -OO -B"
@@ -87,6 +87,12 @@ echo "done"
 wine 'wineboot'
 
 cd /tmp/electrum-xsh-build
+
+# Install vs2015 cpp build tools
+winetricks dotnet45 --force -q
+download_if_not_exist vs_buildtools.exe "https://aka.ms/vs/15/release/vs_buildtools.exe"
+wine "$PWD/vs_buildtools.exe" --quiet --wait --norestart --nocache -all --installPath C:\BuildTools
+wine "C:\BuildTools\Common7\Tools\VsDevCmd.bat"
 
 # Install Python
 # note: you might need "sudo apt-get install dirmngr" for the following
