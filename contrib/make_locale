@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import os
 import subprocess
 import io
@@ -55,7 +55,7 @@ if crowdin_api_key:
 
 # Download & unzip
 print('Download translations')
-s = requests.request('GET', 'https://crowdin.com/download/project/' + crowdin_identifier + '.zip').content
+s = requests.request('GET', 'https://crowdin.com/backend/download/project/' + crowdin_identifier + '.zip').content
 zfobj = zipfile.ZipFile(io.BytesIO(s))
 
 print('Unzip translations')
