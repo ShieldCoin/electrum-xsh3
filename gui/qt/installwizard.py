@@ -25,12 +25,12 @@ MSG_HW_STORAGE_ENCRYPTION = _("Set wallet file encryption.") + '\n'\
                           + _("Your wallet file does not contain secrets, mostly just metadata. ") \
                           + _("It also contains your master public key that allows watching your addresses.") + '\n\n'\
                           + _("Note: If you enable this setting, you will need your hardware device to open your wallet.")
-WIF_HELP_TEXT = (_('WIF keys are typed in Electrum, based on script type.') + '\n\n' +
-                 _('A few examples') + ':\n' +
-                 'p2pkh:T4PsyoR5gC8B...       \t-> LXqi2tzER...\n' +
-                 'p2wpkh-p2sh:T4PsyoR5gC8B... \t-> MUuWxSpVC...\n' +
-                 'p2wpkh:T4PsyoR5gC8B...      \t-> xsh1q3fjf...')
-# note: full key is T4PsyoR5gC8BGEoTe8So7YQWPnvdkqTJqRVpLoMmZVqBsunDdeuJ
+WIF_HELP_TEXT = (_('Private keys need to be entered with a prefix that tells Electrum its address type.') + '\n' +
+                 _('HINT: Use "p2pkh:" for Android and Paper wallets') + '\n\n' +
+                 'p2pkh:VHMmBE...       \t-> SMJsV1K...\n' +
+                 'p2wpkh-p2sh:VHMmBE... \t-> EKqhNkr...\n' +
+                 'p2wpkh:VHMmBE...      \t-> sh1qqq4...')
+# note: full key is VHMmBEtt43TxdCxP5fhyJZwJdCmVohUW13sCyFEEmvETSMeGkTxA
 
 
 class CosignWidget(QWidget):
