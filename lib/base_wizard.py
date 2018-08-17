@@ -164,7 +164,7 @@ class BaseWizard(object):
     def import_addresses_or_keys(self):
         v = lambda x: keystore.is_address_list(x) or keystore.is_private_key_list(x)
         title = _("Import SHIELD Addresses")
-        message = _("Enter a list of SHIELD addresses (this will create a watching-only wallet), or a list of private keys.")
+        message = _("Enter a list of SHIELD addresses (and create a watching-only wallet), or a list of private keys. \n\n Private keys require a prefix, either 'S=', 'E=', or 'sh1='.\n HINT: Use 'S=' for Android / Paper wallet keys.")
         self.add_xpub_dialog(title=title, message=message, run_next=self.on_import,
                              is_valid=v, allow_multi=True, show_wif_help=True)
 

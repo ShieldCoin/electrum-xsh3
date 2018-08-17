@@ -26,10 +26,10 @@ MSG_HW_STORAGE_ENCRYPTION = _("Set wallet file encryption.") + '\n'\
                           + _("It also contains your master public key that allows watching your addresses.") + '\n\n'\
                           + _("Note: If you enable this setting, you will need your hardware device to open your wallet.")
 WIF_HELP_TEXT = (_('Private keys need to be entered with a prefix that tells Electrum its address type.') + '\n' +
-                 _('HINT: Use "p2pkh:" for Android and Paper wallets') + '\n\n' +
-                 'p2pkh:VHMmBE...       \t-> SMJsV1K...\n' +
-                 'p2wpkh-p2sh:VHMmBE... \t-> EKqhNkr...\n' +
-                 'p2wpkh:VHMmBE...      \t-> sh1qqq4...')
+                 _('HINT: Use "S=" for Android and Paper wallet keys. Examples below:') + '\n\n' +
+                 'S=VHMmBE...       \t-> SMJsV1K...\n' +
+                 'E=VHMmBE...       \t-> EKqhNkr...\n' +
+                 'sh1=VHMmBE...     \t-> sh1qqq4...')
 # note: full key is VHMmBEtt43TxdCxP5fhyJZwJdCmVohUW13sCyFEEmvETSMeGkTxA
 
 

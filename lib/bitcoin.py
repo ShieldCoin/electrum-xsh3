@@ -442,6 +442,16 @@ def deserialize_privkey(key: str) -> (str, bytes, bool):
     txin_type = None
     if ':' in key:
         txin_type, key = key.split(sep=':', maxsplit=1)
+        if txin_type == 'S': txin_type='p2pkh'
+        if txin_type == 'E': txin_type='p2wpkh-p2sh'
+        if txin_type == 'sh1': txin_type='p2wpkh'
+        if txin_type not in WIF_SCRIPT_TYPES:
+            raise BitcoinException('unknown script type: {}'.format(txin_type))
+    if '=' in key:
+        txin_type, key = key.split(sep='=', maxsplit=1)
+        if txin_type == 'S': txin_type='p2pkh'
+        if txin_type == 'E': txin_type='p2wpkh-p2sh'
+        if txin_type == 'sh1': txin_type='p2wpkh'
         if txin_type not in WIF_SCRIPT_TYPES:
             raise BitcoinException('unknown script type: {}'.format(txin_type))
     try:
