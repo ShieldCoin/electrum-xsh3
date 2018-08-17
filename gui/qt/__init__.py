@@ -124,7 +124,7 @@ class ElectrumGui:
         try:
             font_id = font_db.addApplicationFont(":icons/Montserrat.ttf")            
             families = font_db.applicationFontFamilies(font_id)[0]
-            Montserrat = QFont(families)
+            Montserrat = QFont(families, 10)
             # tell painter to use your font: 
             self.app.setFont(Montserrat)
         except Exception as e:
