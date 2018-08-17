@@ -2747,7 +2747,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
 
         units = base_units_list
         msg = (_('Base unit of your wallet.')
-               + '\n1 XSH = 1000 mXSH. 1 mXSH = 1000 uXSH. 1 uXSH = 100 sat.\n'
+               + '\n1 XSH = 1000 mXSH. 1 mXSH = 1000 shells.\n'
                + _('This setting affects the Send tab, and all balance related fields.'))
         unit_label = HelpLabel(_('Base unit') + ':', msg)
         unit_combo = QComboBox()
