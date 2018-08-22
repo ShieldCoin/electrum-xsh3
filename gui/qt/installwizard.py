@@ -399,7 +399,7 @@ class InstallWizard(QDialog, MessageBoxMixin, BaseWizard):
         if self.opt_bip39:
             options.append('bip39')
         title = _('Enter Seed')
-        message = _('Please enter your seed phrase in order to restore your wallet.')
+        message = _('Please enter your seed phrase in order to restore your wallet.\nAndroid wallet users should enable "Options > BIP39 seed" below.')
         return self.seed_input(title, message, test, options)
 
     @wizard_dialog
