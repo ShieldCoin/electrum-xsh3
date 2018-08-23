@@ -341,11 +341,6 @@ class Blockchain(util.PrintError):
             return '0000000000000000000000000000000000000000000000000000000000000000'
         elif height == 0:
             return constants.net.GENESIS
-        elif height < len(self.checkpoints) * 2016:
-            assert (height+1) % 2016 == 0, height
-            index = height // 2016
-            h, t, _ = self.checkpoints[index]
-            return h
         else:
             return hash_header(self.read_header(height))
 
@@ -484,15 +479,3 @@ class Blockchain(util.PrintError):
         except BaseException as e:
             self.print_error('verify_chunk %d failed'%idx, str(e))
             return False
-
-    def get_checkpoints(self):
-        # for each chunk, store the hash of the last block and the target after the chunk
-        cp = []
-        n = self.height() // 2016
-        for index in range(n):
-            h = self.get_hash((index+1) * 2016 -1)
-            target = self.get_target(index)
-            # SHIELD: also store the timestamp of the last block
-            tstamp = self.get_timestamp((index+1) * 2016 - 1)
-            cp.append((h, target, tstamp))
-        return cp
