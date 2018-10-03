@@ -34,9 +34,9 @@ try:
     import groestl_hash # getPoWHash
     import lyra2re2_hash # getPoWHash
     import x17_hash # x17_gethash
-#    import x16s_hash
+    import shield_x16s_hash
 except ImportError:
-    util.print_msg("Error: x17_hash (1.5), lyra2re2_hash, groestl_hash or x16s_hash not installed")
+    util.print_msg("Error: x17_hash (1.5), lyra2re2_hash, groestl_hash or shield_x16s_hash not installed")
     os._exit(1)
 
 try:
@@ -101,7 +101,7 @@ def pow_hash_header(header):
         return hash_encode(x17_hash.x17_gethash(bfh(serialize_header(header))))
 
     if header['version'] & (15 << 11) == (11 << 11):
-        return hash_encode(x16s_hash.getPoWHash(bfh(serialize_header(header))))
+        return hash_encode(shield_x16s_hash.getPoWHash(bfh(serialize_header(header))))
 
     return hash_encode(getPoWHash(bfh(serialize_header(header))))
 
@@ -217,11 +217,9 @@ class Blockchain(util.PrintError):
             bits = self.target_to_bits(target)
             if bits != header.get('bits'):
                 raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
-            algo_version = header['version'] & (15 << 11)
-            if algo_version != (11  << 11):
-                _powhash = pow_hash_header(header)
-                if int('0x' + _powhash, 16) > target:
-                    raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
+            _powhash = pow_hash_header(header)
+            if int('0x' + _powhash, 16) > target:
+                raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
         else:
             self.checklist_gate(height, header)
 
