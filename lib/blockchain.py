@@ -31,7 +31,7 @@ from .util import bfh, bh2u
 from .blake2 import BLAKE2s as cblake
 
 try:
-    import groestl_hash # getHash
+    import groestl_hash # getPoWHash
     import lyra2re2_hash # getPoWHash
     import x17_hash # x17_gethash
 except ImportError:
@@ -90,13 +90,13 @@ def pow_hash_header(header):
         blake_state.update(bfh(serialize_header(header)))
         return hash_encode(blake_state.final())
 
-    if header['version'] & (15 << 11) == (2  << 11):
+    if header['version'] & (15 << 11) == (2 << 11):
         return hash_encode(groestl_hash.getPoWHash(bfh(serialize_header(header))))
     
     if header['version'] & (15 << 11) == (10 << 11):
         return hash_encode(lyra2re2_hash.getPoWHash(bfh(serialize_header(header))))
     
-    if header['version'] & (15 << 11) == (3  << 11):
+    if header['version'] & (15 << 11) == (3 << 11):
         return hash_encode(x17_hash.x17_gethash(bfh(serialize_header(header))))
 
     return hash_encode(getPoWHash(bfh(serialize_header(header))))
