@@ -34,8 +34,9 @@ try:
     import groestl_hash # getPoWHash
     import lyra2re2_hash # getPoWHash
     import x17_hash # x17_gethash
+#    import x16s_hash
 except ImportError:
-    util.print_msg("Error: x17_hash (1.5) or lyra2re2_hash or groestl_hash not installed")
+    util.print_msg("Error: x17_hash (1.5), lyra2re2_hash, groestl_hash or x16s_hash not installed")
     os._exit(1)
 
 try:
@@ -98,6 +99,9 @@ def pow_hash_header(header):
     
     if header['version'] & (15 << 11) == (3 << 11):
         return hash_encode(x17_hash.x17_gethash(bfh(serialize_header(header))))
+
+    if header['version'] & (15 << 11) == (11 << 11):
+        return hash_encode(x16s_hash.getPoWHash(bfh(serialize_header(header))))
 
     return hash_encode(getPoWHash(bfh(serialize_header(header))))
 
