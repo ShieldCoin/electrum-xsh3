@@ -581,6 +581,8 @@ def deserialize(raw: str, force_full_parse=False) -> dict:
         if (d['time'] < 1507311610 or d['time'] > 1540188138):
             d['time'] = 0
             vds.read_cursor -= 4; # time is not up to spec
+    else:
+        d['time'] = 0
     n_vin = vds.read_compact_size()
     is_segwit = (n_vin == 0)
     if is_segwit:
