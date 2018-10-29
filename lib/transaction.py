@@ -637,7 +637,7 @@ class Transaction:
         self._inputs = None
         self._outputs = None
         self.locktime = 0
-        self.version = 1
+        self.version = 4
         self.time = 0
         # by default we assume this is a partial txn;
         # this value will get properly set when deserializing
