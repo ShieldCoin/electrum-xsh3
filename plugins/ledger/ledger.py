@@ -18,9 +18,9 @@ from electrum_xsh.base_wizard import ScriptTypeNotSupported
 try:
     import hid
     from btchip.btchipComm import HIDDongleHIDAPI, DongleWait
-    from btchip.btchip import btchip
+    from .shield import btchip_xsh
     from btchip.btchipUtils import compress_public_key,format_transaction, get_regular_input_script, get_p2sh_input_script
-    from btchip.bitcoinTransaction import bitcoinTransaction
+    from .shield import shieldTransaction
     from btchip.btchipFirmwareWizard import checkFirmware, updateFirmware
     from btchip.btchipException import BTChipException
     BTCHIP = True
@@ -54,7 +54,7 @@ def test_pin_unlocked(func):
 
 class Ledger_Client():
     def __init__(self, hidDevice):
-        self.dongleObject = btchip(hidDevice)
+        self.dongleObject = btchip_xsh(hidDevice)
         self.preflightDone = False
 
     def is_pairable(self):
@@ -424,7 +424,7 @@ class Ledger_KeyStore(Hardware_KeyStore):
                     chipInputs.append({'value' : tmp, 'witness' : True, 'sequence' : sequence})
                     redeemScripts.append(bfh(utxo[2]))
                 elif not p2shTransaction:
-                    txtmp = bitcoinTransaction(bfh(utxo[0]))
+                    txtmp = shieldTransaction(bfh(utxo[0]))
                     trustedInput = self.get_client().getTrustedInput(txtmp, utxo[1])
                     trustedInput['sequence'] = sequence
                     chipInputs.append(trustedInput)
