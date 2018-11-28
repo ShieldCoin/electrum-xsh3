@@ -22,6 +22,7 @@
 # SOFTWARE.
 import os
 import threading
+import hashlib
 
 from . import util
 from .bitcoin import Hash, hash_encode, int_to_hex, rev_hex
@@ -93,10 +94,10 @@ def pow_hash_header(header):
 
     if header['version'] & (15 << 11) == (2 << 11):
         return hash_encode(groestl_hash.getPoWHash(bfh(serialize_header(header))))
-    
+
     if header['version'] & (15 << 11) == (10 << 11):
         return hash_encode(lyra2re2_hash.getPoWHash(bfh(serialize_header(header))))
-    
+
     if header['version'] & (15 << 11) == (3 << 11):
         return hash_encode(x17_hash.x17_gethash(bfh(serialize_header(header))))
 
@@ -150,7 +151,7 @@ class Blockchain(util.PrintError):
         self.catch_up = None # interface catching up
         self.checkpoint = checkpoint
         self.checkpoints = constants.net.CHECKPOINTS
-        self.checklist = constants.net.CHECKLIST
+        self.targets = constants.net.TARGETS
         self.parent_id = parent_id
         self.lock = threading.Lock()
         with self.lock:
@@ -196,46 +197,37 @@ class Blockchain(util.PrintError):
         p = self.path()
         self._size = os.path.getsize(p)//80 if os.path.exists(p) else 0
 
-    def checklist_gate(self, height, header):
-        if (height % 1500 == 1):
-            index = height // 1500
-            self.checklist_verify(index, header)
-
-    def checklist_verify(self, height, header):
-        try:
-            assert (hash_header(header) == self.checklist[height][0]), 'Checklist item %s verify failed' % height
-        except Exception as e:
-            print(e)
-            os._exit(1)
-
-    def verify_header(self, header, prev_hash, target, height, limit):
+    def verify_header(self, header, prev_hash, target):
         if prev_hash != header.get('prev_block_hash'):
             raise Exception("prev hash mismatch: %s vs %s" % (prev_hash, header.get('prev_block_hash')))
         if constants.net.TESTNET:
             return
-        if (height > limit):
-            bits = self.target_to_bits(target)
-            if bits != header.get('bits'):
-                raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
-            _powhash = pow_hash_header(header)
-            if int('0x' + _powhash, 16) > target:
-                raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
-        else:
-            self.checklist_gate(height, header)
+        bits = self.target_to_bits(target)
+        if bits != header.get('bits'):
+            raise Exception("bits mismatch: %s vs %s" % (bits, header.get('bits')))
+        _powhash = pow_hash_header(header)
+        if int('0x' + _powhash, 16) > target:
+            raise Exception("insufficient proof of work: %s vs target %s" % (int('0x' + _powhash, 16), target))
 
     def verify_chunk(self, index, data):
         num = len(data) // 80
-        prev_hash = self.get_hash(index * 2016 - 1)
-        limit = ((len(self.checklist) - 1) * 1500 + 1)
-        for i in range(num):
-            raw_header = data[i*80:(i+1) * 80]
-            header = deserialize_header(raw_header, index*2016 + i)
-            if (index*2016 + i > limit):
-                target = self.get_target(data, i, index)
-            else:
-                target = 0
-            self.verify_header(header, prev_hash, target, index*2016 + i, limit)
-            prev_hash = hash_header(header)
+        if index < len(self.checkpoints):
+            h, cd, ch = self.checkpoints[index]
+            if cd != hashlib.sha256(data).hexdigest():
+                raise Exception("primary data mismatch")
+            sec = bytearray()
+            for i in range(num):
+                sec += (data[(i*80) + 4:(i*80) + 36])
+            if ch != hashlib.sha256(sec).hexdigest():
+                raise Exception("secondary data mismatch")
+        else:
+            prev_hash = self.get_hash(index * 2016 - 1)
+            for j in range(num):
+                raw_header = data[j*80:(j+1) * 80]
+                header = deserialize_header(raw_header, index*2016 + j)
+                target = self.get_target(data, j, index)
+                self.verify_header(header, prev_hash, target)
+                prev_hash = hash_header(header)
 
     def path(self):
         d = util.get_headers_dir(self.config)
@@ -343,14 +335,14 @@ class Blockchain(util.PrintError):
             return '0000000000000000000000000000000000000000000000000000000000000000'
         elif height == 0:
             return constants.net.GENESIS
+        elif height < len(self.checkpoints) * 2016 and (height + 1) % 2016 == 0:
+            index = height // 2016
+            h, _, _ = self.checkpoints[index]
+            return h
         else:
             return hash_header(self.read_header(height))
 
     def get_timestamp(self, height):
-        if height < len(self.checkpoints) * 2016 and (height+1) % 2016 == 0:
-            index = height // 2016
-            _, _, ts = self.checkpoints[index]
-            return ts
         return self.read_header(height).get('timestamp')
 
     def GetMaxClockDrift(self, Height):
@@ -375,9 +367,13 @@ class Blockchain(util.PrintError):
         cBlock = deserialize_header(raw, height)
         algo = self.get_algo(cBlock)
         T = 225
-        FTL = self.GetMaxClockDrift(height)
+        FTL = 6 * T
         N = 60
         k = N*(N+1)*T/2
+        if height >= (len(self.checkpoints) * 2016):
+            for i in range(0,N+1):
+                if height == self.targets[algo][i][0]:
+                    return int(self.bits_to_target(self.targets[algo][i][1]))
         sumTarget = 0
         t = 0
         j = 0
@@ -395,16 +391,16 @@ class Blockchain(util.PrintError):
             c-=1
         if c <= 100:
             return self.get_targetv1(height)
-        # Loop through N most recent blocks.  "< height", not "<=". 
+        # Loop through N most recent blocks.  "< height", not "<=".
         # i-1 = most recent
         for i in range(N, 0, -1):
             solvetime = samealgoblocks[i-1]['timestamp'] - samealgoblocks[i]['timestamp']
-            solvetime = max(-FTL, min(solvetime, 6*T));
+            solvetime = max(-FTL, min(solvetime, 6*T))
             j += 1
             t += solvetime * j
             target = self.bits_to_target(samealgoblocks[i-1].get('bits'))
             sumTarget += target / (k * N)
-        # Keep t reasonable in case strange solvetimes occurred. 
+        # Keep t reasonable in case strange solvetimes occurred.
         if t < k // 10:
             t = k // 10
         next_target = t * sumTarget
@@ -417,9 +413,6 @@ class Blockchain(util.PrintError):
             return 0
         if index == -1:
             return 0x00000FFFF0000000000000000000000000000000000000000000000000000000
-        if index < len(self.checkpoints):
-            h, t, _ = self.checkpoints[index]
-            return t
         # new target
         # SHIELD: go back the full period unless it's the first retarget
         first_timestamp = self.get_timestamp(index * 2016 - 1 if index > 0 else 0)
