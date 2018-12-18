@@ -32,9 +32,9 @@ from .util import bfh, bh2u
 from .blake2 import BLAKE2s as cblake
 
 try:
-    import groestl_hash # getPoWHash
-    import lyra2re2_hash # getPoWHash
-    import x17_hash # x17_gethash
+    import groestl_hash
+    import lyra2re2_hash
+    import x17_hash
     import shield_x16s_hash
 except ImportError:
     util.print_msg("Error: x17_hash (1.5), lyra2re2_hash, groestl_hash or shield_x16s_hash not installed")
@@ -91,19 +91,14 @@ def pow_hash_header(header):
         blake_state = cblake()
         blake_state.update(bfh(serialize_header(header)))
         return hash_encode(blake_state.final())
-
     if header['version'] & (15 << 11) == (2 << 11):
         return hash_encode(groestl_hash.getPoWHash(bfh(serialize_header(header))))
-
     if header['version'] & (15 << 11) == (10 << 11):
         return hash_encode(lyra2re2_hash.getPoWHash(bfh(serialize_header(header))))
-
     if header['version'] & (15 << 11) == (3 << 11):
         return hash_encode(x17_hash.x17_gethash(bfh(serialize_header(header))))
-
     if header['version'] & (15 << 11) == (11 << 11):
         return hash_encode(shield_x16s_hash.getPoWHash(bfh(serialize_header(header))))
-
     return hash_encode(getPoWHash(bfh(serialize_header(header))))
 
 
@@ -212,7 +207,7 @@ class Blockchain(util.PrintError):
     def verify_chunk(self, index, data):
         num = len(data) // 80
         if index < len(self.checkpoints):
-            h, cd, ch = self.checkpoints[index]
+            _, cd, ch = self.checkpoints[index]
             if cd != hashlib.sha256(data).hexdigest():
                 raise Exception("primary data mismatch")
             sec = bytearray()
@@ -222,10 +217,11 @@ class Blockchain(util.PrintError):
                 raise Exception("secondary data mismatch")
         else:
             prev_hash = self.get_hash(index * 2016 - 1)
+            blks = []
             for j in range(num):
                 raw_header = data[j*80:(j+1) * 80]
                 header = deserialize_header(raw_header, index*2016 + j)
-                target = self.get_target(data, j, index)
+                target, blks = self.get_target(data, index, j, True, blks)
                 self.verify_header(header, prev_hash, target)
                 prev_hash = hash_header(header)
 
@@ -352,17 +348,17 @@ class Blockchain(util.PrintError):
 
     def get_algo(self, header):
         switcher = {
-            (1  << 11): 0, #scrypt
-            (2  << 11): 4, # groestl
+            ( 1 << 11): 0, # scrypt
+            ( 2 << 11): 4, # groestl
             (10 << 11): 2, # lyra
-            (3  << 11): 1, # x17
-            (4  << 11): 3, # blake
+            ( 3 << 11): 1, # x17
+            ( 4 << 11): 3, # blake
             (11 << 11): 5, # x16s
         }
         return switcher.get(header['version'] & (15 << 11), 0)
 
-    def get_target(self, data, counter, index):
-        height = index*2016 + counter
+    def get_target(self, data, index, counter, chunk, blks):
+        height = index*2016 + counter if chunk else index
         raw = data[counter*80:(counter+1) * 80]
         cBlock = deserialize_header(raw, height)
         algo = self.get_algo(cBlock)
@@ -370,16 +366,21 @@ class Blockchain(util.PrintError):
         FTL = 6 * T
         N = 60
         k = N*(N+1)*T/2
-        if height >= (len(self.checkpoints) * 2016):
+        if (height >= (len(self.checkpoints) * 2016)) and (height <= self.targets[algo][N][0]):
             for i in range(0,N+1):
                 if height == self.targets[algo][i][0]:
-                    return int(self.bits_to_target(self.targets[algo][i][1]))
+                    if chunk:
+                        return int(self.bits_to_target(self.targets[algo][i][1])), blks
+                    else:
+                        return int(self.bits_to_target(self.targets[algo][i][1]))
         sumTarget = 0
         t = 0
         j = 0
-        samealgoblocks = []
+        if blks == []:
+            for i in range(6):
+                blks.append([])
         c = height - 1
-        while c > 100 and len(samealgoblocks) <= N:
+        while c > 100 and len(blks[algo]) <= N:
             if (c >= index*2016):
                 tmpix = c - index*2016
                 tmpraw = data[tmpix*80:(tmpix+1) * 80]
@@ -387,24 +388,30 @@ class Blockchain(util.PrintError):
             else:
                 block = self.read_header(c)
             if self.get_algo(block) == algo:
-                samealgoblocks.append(block)
+                blks[algo].append(block)
             c-=1
         if c <= 100:
             return self.get_targetv1(height)
-        # Loop through N most recent blocks.  "< height", not "<=".
-        # i-1 = most recent
+        # Loop through N most recent blocks.
         for i in range(N, 0, -1):
-            solvetime = samealgoblocks[i-1]['timestamp'] - samealgoblocks[i]['timestamp']
+            solvetime = blks[algo][i-1]['timestamp'] - blks[algo][i]['timestamp']
             solvetime = max(-FTL, min(solvetime, 6*T))
             j += 1
             t += solvetime * j
-            target = self.bits_to_target(samealgoblocks[i-1].get('bits'))
+            target = self.bits_to_target(blks[algo][i-1].get('bits'))
             sumTarget += target / (k * N)
         # Keep t reasonable in case strange solvetimes occurred.
         if t < k // 10:
             t = k // 10
         next_target = t * sumTarget
-        return int(next_target)
+        if chunk:
+            if len(blks[algo]) != 0:
+                blks[algo].insert(0, cBlock)
+                blks[algo].pop(N+1)
+            assert len(blks[algo]) == N+1
+            return int(next_target), blks
+        else:
+            return int(next_target)
 
     def get_targetv1(self, index):
         # Old algo
@@ -412,7 +419,7 @@ class Blockchain(util.PrintError):
         if constants.net.TESTNET:
             return 0
         if index == -1:
-            return 0x00000FFFF0000000000000000000000000000000000000000000000000000000
+            return MAX_TARGET
         # new target
         # SHIELD: go back the full period unless it's the first retarget
         first_timestamp = self.get_timestamp(index * 2016 - 1 if index > 0 else 0)
@@ -458,9 +465,9 @@ class Blockchain(util.PrintError):
             return hash_header(header) == constants.net.GENESIS
         try:
             prev_hash = self.get_hash(height - 1)
+            target = self.get_target(bfh(serialize_header(header)), height, 0, False, [])
+            self.verify_header(header, prev_hash, target)
         except:
-            return False
-        if prev_hash != header.get('prev_block_hash'):
             return False
         return True
 
